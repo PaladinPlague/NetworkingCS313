@@ -4,52 +4,11 @@ public class Main {
         NetworkSimulator sim = new NetworkSimulator(10, 0.0, 0.0, 10.0, false, 1);
 
         // TODO: Set the sender   (sim.setSender)
-
-        TransportLayer sender = new TransportLayer("sender",sim) {
-            @Override
-            public void init() {
-
-            }
-
-            @Override
-            public void rdt_send(byte[] data) {
-
-            }
-
-            @Override
-            public void rdt_receive(TransportLayerPacket pkt) {
-
-            }
-
-            @Override
-            public void timerInterrupt() {
-
-            }
-        };
+        Sender sender = new Sender("sender",sim);
         sim.setSender(sender);
 
         // TODO: Set the receiver (sim.setReceiver)
-        TransportLayer receiver = new TransportLayer("receiver", sim) {
-            @Override
-            public void init() {
-
-            }
-
-            @Override
-            public void rdt_send(byte[] data) {
-
-            }
-
-            @Override
-            public void rdt_receive(TransportLayerPacket pkt) {
-
-            }
-
-            @Override
-            public void timerInterrupt() {
-
-            }
-        };
+        Receiver receiver = new Receiver("receiver",sim);
         sim.setReceiver(receiver);
 
         sim.runSimulation();
