@@ -13,6 +13,12 @@ public class TransportLayerPacket {
         // complete this method
     }
 
+    public void makePkt(int seqNum, byte[] data){
+        seqnum = seqNum;
+        this.data = data;
+
+    }
+
     public void setSeqnum(int seqnum) {
         this.seqnum = seqnum;
     }
