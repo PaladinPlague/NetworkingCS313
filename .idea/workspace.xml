@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java">
+      <change afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +48,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -80,6 +82,8 @@
       <workItem from="1633615430239" duration="3823000" />
       <workItem from="1634034251310" duration="997000" />
       <workItem from="1634203252159" duration="2477000" />
+      <workItem from="1634571346017" duration="5917000" />
+      <workItem from="1634637055903" duration="7308000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
