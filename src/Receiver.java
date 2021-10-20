@@ -1,4 +1,7 @@
 public class Receiver extends TransportLayer{
+
+
+
     public Receiver(String name, NetworkSimulator simulator) {
         super(name, simulator);
     }
@@ -6,6 +9,8 @@ public class Receiver extends TransportLayer{
 
     @Override
     public void init() {
+
+        System.out.println("client: " + getName() + " has been initialised");
 
     }
 
