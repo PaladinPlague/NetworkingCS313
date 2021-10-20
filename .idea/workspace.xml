@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Made additional methods, fields and constructors. Currently unsure on status.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$Event.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$Event.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$EventType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$EventType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +83,8 @@
       <workItem from="1634637055903" duration="7308000" />
       <workItem from="1634721535267" duration="4346000" />
       <workItem from="1634725898071" duration="1860000" />
-      <workItem from="1634730351415" duration="8288000" />
+      <workItem from="1634730351415" duration="8383000" />
+      <workItem from="1634768289171" duration="2536000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -100,7 +93,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633106286857</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Made additional methods, fields and constructors. Currently unsure on status.">
+      <created>1634745972021</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1634745972021</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +121,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
+    <MESSAGE value="Made additional methods, fields and constructors. Currently unsure on status." />
+    <option name="LAST_COMMIT_MESSAGE" value="Made additional methods, fields and constructors. Currently unsure on status." />
   </component>
 </project>
