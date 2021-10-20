@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java">
-      <change afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$Event.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$Event.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$EventType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator$EventType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/NetworkSimulator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,15 +44,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -84,6 +89,9 @@
       <workItem from="1634203252159" duration="2477000" />
       <workItem from="1634571346017" duration="5917000" />
       <workItem from="1634637055903" duration="7308000" />
+      <workItem from="1634721535267" duration="4346000" />
+      <workItem from="1634725898071" duration="1860000" />
+      <workItem from="1634730351415" duration="8288000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -112,6 +120,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
   </component>
 </project>
