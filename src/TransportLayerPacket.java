@@ -2,8 +2,8 @@ public class TransportLayerPacket {
 
     // Maybe remove these
     // You may need extra fields
-    private int seqnum;
-    private int acknum;
+    private int seqNum;
+    private int ackNum;
 
     byte[] data;
 
@@ -11,20 +11,30 @@ public class TransportLayerPacket {
 
     public TransportLayerPacket(TransportLayerPacket pkt) {
         // complete this method
+        this.seqNum = pkt.seqNum;
+        this.ackNum = pkt.ackNum;
+        this.data = pkt.getData();
     }
 
-    public void makePkt(int seqNum, byte[] data){
-        seqnum = seqNum;
+    public TransportLayerPacket(){
+
+    }
+
+
+    public void setSeqnum(int seqNum) {
+        this.seqNum = seqNum;
+    }
+
+    public int getSeqNum(){ return seqNum; }
+
+    public void setAcknum(int ackNum) {
+        this.ackNum = ackNum;
+    }
+
+    public int getAckNum(){ return ackNum;}
+
+    public void setData (byte[] data){
         this.data = data;
-
-    }
-
-    public void setSeqnum(int seqnum) {
-        this.seqnum = seqnum;
-    }
-
-    public void setAcknum(int acknum) {
-        this.acknum = acknum;
     }
 
     public byte[] getData() {
