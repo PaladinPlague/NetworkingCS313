@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="had some ideas of what Sender.java should do.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
@@ -84,7 +83,9 @@
       <workItem from="1634203252159" duration="2477000" />
       <workItem from="1634571346017" duration="5917000" />
       <workItem from="1634637055903" duration="16350000" />
-      <workItem from="1634734680216" duration="10033000" />
+      <workItem from="1634734680216" duration="14505000" />
+      <workItem from="1634771732265" duration="645000" />
+      <workItem from="1634840351334" duration="4514000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -100,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634677332544</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="had some ideas of what Sender.java should do.">
+      <created>1634747032181</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1634747032181</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +129,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
+    <MESSAGE value="had some ideas of what Sender.java should do." />
+    <option name="LAST_COMMIT_MESSAGE" value="had some ideas of what Sender.java should do." />
   </component>
 </project>
