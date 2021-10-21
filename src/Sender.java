@@ -1,8 +1,11 @@
+import java.util.Arrays;
+
 public class Sender extends TransportLayer {
 
 
     TransportLayerPacket sndPkt;
     TransportLayerPacket rcvPkt;
+    boolean timeout;
     Sender sender;
 
 
@@ -18,6 +21,7 @@ public class Sender extends TransportLayer {
         System.out.println("client: " + getName() + " has been initialised");
         sndPkt = new TransportLayerPacket();
         rcvPkt  = new TransportLayerPacket();
+        timeout = false;
         sender = new Sender("sender", simulator);
 
     }
@@ -25,7 +29,10 @@ public class Sender extends TransportLayer {
     @Override
     public void rdt_send(byte[] data) {
         sndPkt = make_pkt(0, data);
-        System.out.println(data.toString());
+
+        System.out.println("The data we received from above layer: ");
+
+        System.out.println(Arrays.toString(data));
 
         simulator.sendToNetworkLayer(sender,sndPkt);
         simulator.startTimer(sender,1);
@@ -41,16 +48,21 @@ public class Sender extends TransportLayer {
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
         rcvPkt = new TransportLayerPacket(pkt);
-        if (corrupt() || !isACK()){
-            //if pkt is corrupted or the ACK num is not the right one then
-            //wait until timer runs out
-            System.out.println("pkt not right or ACK num not right");
-        }else if(!corrupt() && isACK()){
-            //if everything is fine then stop timer waiting to be called from above
+        if (rcvPkt == null){
+            System.out.println("Time out");
+        }else{
+            if (corrupt() || !isACK()){
+                //if pkt is corrupted or the ACK num is not the right one then
+                System.out.println("pkt not right or ACK num not right");
+            }else if(!corrupt() && isACK()){
+                //if everything is fine then stop timer waiting to be called from above
 
-            System.out.println("pkt is right or ACK num is right");
-            timerInterrupt();
+                System.out.println("alright");
+                simulator.stopTimer(sender);
+            }
         }
+
+
     }
 
     public boolean corrupt(){
@@ -79,6 +91,7 @@ public class Sender extends TransportLayer {
     @Override
     public void timerInterrupt() {
         // stop timer
+        //handle timeout
 
         simulator.stopTimer(sender);
         //resend the pkt???
