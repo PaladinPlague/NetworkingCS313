@@ -4,6 +4,7 @@ public class TransportLayerPacket {
     // You may need extra fields
     private int seqNum;
     private int ackNum;
+    private final String checksum;
 
     byte[] data;
 
@@ -14,10 +15,14 @@ public class TransportLayerPacket {
         this.seqNum = pkt.seqNum;
         this.ackNum = pkt.ackNum;
         this.data = pkt.getData();
+        this.checksum = pkt.checksum;
     }
 
-    public TransportLayerPacket(){
-
+    public TransportLayerPacket(int seqNum, int ackNum, byte[] data, String checksum){
+        this.seqNum = seqNum;
+        this.ackNum = ackNum;
+        this.data = data;
+        this.checksum = checksum;
     }
 
 
@@ -33,8 +38,8 @@ public class TransportLayerPacket {
 
     public int getAckNum(){ return ackNum;}
 
-    public void setData (byte[] data){
-        this.data = data;
+    public String getChecksum(){
+        return checksum;
     }
 
     public byte[] getData() {
