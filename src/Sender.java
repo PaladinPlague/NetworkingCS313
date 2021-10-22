@@ -26,18 +26,18 @@ public class Sender extends TransportLayer {
 
     @Override
     public void rdt_send(byte[] data) {
-        sndPkt = make_pkt(0, data);
+        sndPkt = mk_pkt(0, data);
         System.out.println(Arrays.toString(data));
 
         simulator.sendToNetworkLayer(sender,sndPkt);
         simulator.startTimer(sender,1);
     }
 
-    public TransportLayerPacket make_pkt( int seqNum, byte[] data){
+    public TransportLayerPacket mk_pkt( int seqNum, byte[] data){
 
         Checksum checksum = new Checksum();
 
-        TransportLayerPacket pkt = new TransportLayerPacket(seqNum,-999999,data,-9999);
+        TransportLayerPacket pkt = new TransportLayerPacket(seqNum,0,data,-9999);
         return pkt;
     }
 
@@ -73,10 +73,11 @@ public class Sender extends TransportLayer {
             // when we wait for ACK 0, and we got ACK 1 then we know it is not the right one
             //if we received the correct ACK num then return true else false
 
-            return true;
-        }else {
-            return false;
+            if(rcvPkt.getAckNum() == 1){
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
