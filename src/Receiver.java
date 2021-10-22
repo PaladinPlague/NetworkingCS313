@@ -14,7 +14,7 @@ public class Receiver extends TransportLayer{
     @Override
     public void init() {
 
-        System.out.println("client: " + getName() + " has been initialised");
+        System.out.println("RECEIVER: " + getName() + " has been initialised");
         rcvPkt = null;
         receiver = new Receiver("Receiver", simulator);
         prev_SeqNUm = -99999;
@@ -23,7 +23,7 @@ public class Receiver extends TransportLayer{
 
     @Override
     public void rdt_send(byte[] data) {
-        System.out.println("sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
+        System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
         TransportLayerPacket sndPkt = mk_pkt(rcvPkt.getSeqNum());
         simulator.sendToNetworkLayer(receiver,sndPkt);
     }
@@ -35,7 +35,7 @@ public class Receiver extends TransportLayer{
 
         if(prev_SeqNUm == rcvPkt.getSeqNum()){
             //duplicate package just ignore
-            System.out.println("Duplicated package ignored");
+            System.out.println("Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
             prev_SeqNUm = rcvPkt.getSeqNum();
 
         }else if(!corruption()){
@@ -55,13 +55,12 @@ public class Receiver extends TransportLayer{
             return true;
         }
         byte [] rcv_data = rcvPkt.getData();
-        int rcv_Checksum = rcvPkt.getChecksum();
-        int rcv_seqNum = rcvPkt.getSeqNum();
+        String rcv_Checksum = rcvPkt.getChecksum();
 
-        Checksum checksum = new Checksum();
+        Checksum checksum = new Checksum(rcv_data);
 
-        int proof_Checksum; // = generateChecksum(rcv_data);
-        String added_Checksum = "1000000100101101"; // = checksumAddition(proof_Checksum , rcv_Checksum);
+        String proof_Checksum = checksum.createCheckSum();
+        String added_Checksum = checksum.bitAddition(proof_Checksum, rcv_Checksum);
 
         for(int i = 0; i < added_Checksum.length(); i++){
 
@@ -73,7 +72,9 @@ public class Receiver extends TransportLayer{
     }
 
     public TransportLayerPacket mk_pkt(int seq){
-        TransportLayerPacket pkt = new TransportLayerPacket(seq,1,null,-9999);
+
+        TransportLayerPacket pkt = new TransportLayerPacket(seq,1,null,"");
+
         return pkt;
     }
 
