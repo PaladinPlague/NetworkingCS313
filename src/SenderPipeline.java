@@ -9,22 +9,31 @@ public class SenderPipeline extends TransportLayer {
     private int nextSeqnum;
     private boolean[] sent;
     private boolean[] acked;
+    private int timeout;
 
 
-    public SenderPipeline(String name, NetworkSimulator simulator, int length, int windowSize) {
+    public SenderPipeline(String name, NetworkSimulator simulator, int length, int windowSize, int timer) {
 
         super(name, simulator);
 
         sndPkt = new TransportLayerPacket[length];
         rcvPkt = new TransportLayerPacket[length];
         N = windowSize;
-        nextSeqnum = 0;
+        this.timeout = timer;
+        sent = new boolean[length];
+        acked = new boolean[length];
 
     }
 
 
     @Override
     public void init() {
+
+        nextSeqnum = 0;
+        sendBase = 0;
+
+        rdt_send(data);
+
     }
 
     @Override
@@ -33,32 +42,36 @@ public class SenderPipeline extends TransportLayer {
            if (i > nextSeqnum) {
                nextSeqnum = i;
            }
+           this.sndPkt[i].setSeqnum(i);
            simulator.sendToNetworkLayer(this, this.sndPkt[i]);
            sent[i] = true;
         }
+        simulator.startTimer(this, timeout);
     }
 
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
-        this.rcvPkt[i] = pkt;
+        if (pkt.getAcknum() == sendBase && sendBase + N < sndPkt.length) {
+            this.rcvPkt[pkt.getAcknum()] = pkt;
+            acked[pkt.getAcknum()] = true;
+            sendBase += 1;
+        }
+
     }
 
-    public void timeout() {
+    @Override
+    public void timerInterrupt() {
         boolean flawFound = false;
         for (int i = sendBase; i < nextSeqnum && flawFound; i++) {
             if (sent[i] && acked[i]) {
                 i += 1;
             } else {
+                flawFound = true;
                 sendBase = i;
                 rdt_send(data);
             }
         }
-    }
-
-    @Override
-    public void timerInterrupt() {
-
     }
 
 
