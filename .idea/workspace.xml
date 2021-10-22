@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Added Additional fields and methods, including those around header and tail of packet">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Currently developing changes to sender and receiver files, involving developing a method for timer interrupts.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +25,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1yueSWRxJDfEDETksZimMT4Is1s" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -52,6 +58,9 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\micha\OneDrive\Desktop\StrathClyde\MEng UGCS3\CS313\Networking Team15\src" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
     </key>
   </component>
   <component name="RunManager">
@@ -87,7 +96,9 @@
       <workItem from="1634725898071" duration="1860000" />
       <workItem from="1634730351415" duration="8383000" />
       <workItem from="1634768289171" duration="2688000" />
-      <workItem from="1634854888066" duration="6481000" />
+      <workItem from="1634854888066" duration="6560000" />
+      <workItem from="1634890719385" duration="83000" />
+      <workItem from="1634898660224" duration="6125000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -110,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634771629802</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Currently developing changes to sender and receiver files, involving developing a method for timer interrupts.">
+      <created>1634861659262</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1634861659262</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,6 +151,7 @@
     <MESSAGE value="changes to Main.java task remain: define sender/receiver, define TransportLayerPacket.java" />
     <MESSAGE value="Made additional methods, fields and constructors. Currently unsure on status." />
     <MESSAGE value="Added Additional fields and methods, including those around header and tail of packet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Additional fields and methods, including those around header and tail of packet" />
+    <MESSAGE value="Currently developing changes to sender and receiver files, involving developing a method for timer interrupts." />
+    <option name="LAST_COMMIT_MESSAGE" value="Currently developing changes to sender and receiver files, involving developing a method for timer interrupts." />
   </component>
 </project>

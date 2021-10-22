@@ -84,7 +84,7 @@ public class TransportLayerPacket {
     public byte[] getTail() {
         byte[] result = new byte[this.tailLength];
         for (int i = 0; i < this.tailLength; i++) {
-            result[i] = data[data.length - (i + 1)];
+            result[i] = data[data.length - (i - 1)];
         }
         return result;
     }
