@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Added prototype of pipelined protocols defined in new reciever and sender classes">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Updated prototype for Stage 2 task with new code for pipeline methods based on content of last few slides in Principles of Reliable Transfer.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReceiverPipeline.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SenderPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SenderPipeline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +101,8 @@
       <workItem from="1634854888066" duration="6560000" />
       <workItem from="1634890719385" duration="83000" />
       <workItem from="1634898660224" duration="6591000" />
-      <workItem from="1634913061742" duration="7690000" />
+      <workItem from="1634913061742" duration="7936000" />
+      <workItem from="1635001904493" duration="3504000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -137,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634908033115</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Updated prototype for Stage 2 task with new code for pipeline methods based on content of last few slides in Principles of Reliable Transfer.">
+      <created>1634922013227</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1634922013228</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,6 +171,7 @@
     <MESSAGE value="Added Additional fields and methods, including those around header and tail of packet" />
     <MESSAGE value="Currently developing changes to sender and receiver files, involving developing a method for timer interrupts." />
     <MESSAGE value="Added prototype of pipelined protocols defined in new reciever and sender classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added prototype of pipelined protocols defined in new reciever and sender classes" />
+    <MESSAGE value="Updated prototype for Stage 2 task with new code for pipeline methods based on content of last few slides in Principles of Reliable Transfer." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated prototype for Stage 2 task with new code for pipeline methods based on content of last few slides in Principles of Reliable Transfer." />
   </component>
 </project>

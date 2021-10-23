@@ -32,19 +32,19 @@ public class SenderPipeline extends TransportLayer {
         nextSeqnum = 0;
         sendBase = 0;
 
-        rdt_send(data);
-
     }
 
     @Override
     public void rdt_send(byte[] data) {
-        for (int i = sendBase; i < sendBase + N; i++) {
-           if (i > nextSeqnum) {
-               nextSeqnum = i;
-           }
-           this.sndPkt[i].setSeqnum(i);
-           simulator.sendToNetworkLayer(this, this.sndPkt[i]);
-           sent[i] = true;
+        if (nextSeqnum < sendBase) {
+            for (int i = sendBase; i < sendBase + N; i++) {
+                if (i > nextSeqnum) {
+                    nextSeqnum = i;
+                }
+                this.sndPkt[i].setSeqnum(i);
+                simulator.sendToNetworkLayer(this, this.sndPkt[i]);
+                sent[i] = true;
+            }
         }
         simulator.startTimer(this, timeout);
     }
@@ -55,14 +55,25 @@ public class SenderPipeline extends TransportLayer {
         if (pkt.getAcknum() == sendBase && sendBase + N < sndPkt.length) {
             this.rcvPkt[pkt.getAcknum()] = pkt;
             acked[pkt.getAcknum()] = true;
-            sendBase += 1;
+            if (pkt.getAcknum() == N + sendBase) {
+                while (acked[sendBase]) {
+                    sendBase += 1;
+                }
+            }
         }
 
     }
 
     @Override
     public void timerInterrupt() {
-        boolean flawFound = false;
+        simulator.startTimer(this, simulator.simulationTime);
+
+        for (int i = sendBase; i < nextSeqnum; i++) {
+            rdt_send(sndPkt[i].getData());
+        }
+
+        //Prototype version of resend packets - May or may not want to discard
+        /*boolean flawFound = false;
         for (int i = sendBase; i < nextSeqnum && flawFound; i++) {
             if (sent[i] && acked[i]) {
                 i += 1;
@@ -71,7 +82,7 @@ public class SenderPipeline extends TransportLayer {
                 sendBase = i;
                 rdt_send(data);
             }
-        }
+        }*/
     }
 
 

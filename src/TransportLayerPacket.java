@@ -4,20 +4,26 @@ public class TransportLayerPacket {
     // You may need extra fields
     private int seqnum;
     private int acknum;
-
+    Checksum checksum;
     byte[] data;
     int headerLength;
     int tailLength;
 
     // You may need extra methods
 
-    public TransportLayerPacket(int length) {
+    public TransportLayerPacket() {
         seqnum = 0;
         acknum = 0;
         //Values used as placeholders
-        data = new byte[length];
         headerLength = 30;
         tailLength = 30;
+    }
+
+    public TransportLayerPacket(int seqnum, byte[] data, Checksum checksum) {
+
+        this.data = data;
+        this.seqnum = seqnum;
+        this.checksum = checksum;
     }
 
     public TransportLayerPacket(TransportLayerPacket pkt) {

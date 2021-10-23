@@ -1,9 +1,10 @@
 public class ReceiverPipeline extends TransportLayer{
 
     byte[]data;
-    TransportLayerPacket[] sndPkt;
-    TransportLayerPacket[] rcvPkt;
+    TransportLayerPacket sndPkt;
+    TransportLayerPacket rcvPkt;
     TransportLayerPacket[] buffer;
+    Checksum checksum;
     private int sendBase;
     private int expectedNext;
     private boolean[] sent;
@@ -15,9 +16,6 @@ public class ReceiverPipeline extends TransportLayer{
 
         super(name, simulator);
 
-        sndPkt = new TransportLayerPacket[length];
-        rcvPkt = new TransportLayerPacket[length];
-        buffer = new TransportLayerPacket[length];
         sendBase = 0;
         expectedNext = 0;
         sent = new boolean[length];
@@ -29,15 +27,15 @@ public class ReceiverPipeline extends TransportLayer{
     @Override
     public void init() {
 
+        expectedNext = 0;
+        sndPkt = new TransportLayerPacket(0, data, checksum);
 
     }
 
     @Override
     public void rdt_send(byte[] data) {
 
-        for (int i = 0; sndPkt[i] != null; i++) {
-            simulator.sendToNetworkLayer(this, this.sndPkt[i]);
-        }
+        simulator.sendToNetworkLayer(this, this.sndPkt);
 
 
     }
@@ -45,9 +43,11 @@ public class ReceiverPipeline extends TransportLayer{
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
-        if (pkt.getSeqnum() == expectedNext) {
-            rcvPkt[pkt.getSeqnum()] = pkt;
+        if (pkt.checksum != null && pkt.getSeqnum() == expectedNext) {
+            rcvPkt = pkt;
+            data = pkt.getData();
             sent[pkt.getSeqnum()] = true;
+            sndPkt = new TransportLayerPacket(expectedNext, sndPkt.getData(), checksum);
             expectedNext += 1;
             rdt_send(data);
         } else {
