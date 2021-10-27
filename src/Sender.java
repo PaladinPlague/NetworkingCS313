@@ -6,6 +6,7 @@ public class Sender extends TransportLayer {
     TransportLayerPacket sndPkt;
     //TransportLayerPacket rcvPkt;
     Sender sender;
+    
 
 
 
@@ -26,7 +27,7 @@ public class Sender extends TransportLayer {
 
     @Override
     public void rdt_send(byte[] data) {
-
+        // I THINK THE SENDER WORKS!
         System.out.println();
         System.out.println("______________________________");
         System.out.print("SENDER: The data we got: ");
@@ -41,7 +42,7 @@ public class Sender extends TransportLayer {
         simulator.sendToNetworkLayer(sender,sndPkt);
 
         System.out.println("SENDER: timer started");
-        simulator.startTimer(sender,1);
+        simulator.startTimer(sender,100);
         System.out.println("______________________________");
         System.out.println();
 
@@ -66,15 +67,16 @@ public class Sender extends TransportLayer {
             //if pkt is corrupted or the ACK num is not the right one then
             //wait until timer runs out
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
-            timerInterrupt();
+
             System.out.println("SENDER: timer stopped, time out!");
+            simulator.stopTimer(sender);
 
 
         }else if(!corrupt(rcvPkt) && isACK(rcvPkt)){
             //if everything is fine then stop timer waiting to be called from above
 
             System.out.println("SENDER: ACKed");
-            timerInterrupt();
+            //timerInterrupt();
         }
         System.out.println("______________________________");
         System.out.println();
@@ -107,11 +109,9 @@ public class Sender extends TransportLayer {
 
     @Override
     public void timerInterrupt() {
-        // stop timer
 
-        simulator.stopTimer(sender);
-        //resend the pkt???
-        //start timer???
+        System.out.println("something went wrong");
+        //sndPkt = mk_pkt(0, data);
 
     }
 }

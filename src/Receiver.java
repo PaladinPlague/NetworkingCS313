@@ -23,6 +23,8 @@ public class Receiver extends TransportLayer{
 
     @Override
     public void rdt_send(byte[] data) {
+
+        System.out.println("Hello, do i exist?");
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
         TransportLayerPacket sndPkt = mk_pkt(rcvPkt.getSeqNum());
         simulator.sendToNetworkLayer(receiver,sndPkt);
@@ -30,6 +32,11 @@ public class Receiver extends TransportLayer{
 
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
+
+
+
+
+        System.out.println("Hello, do i exist?");
 
         rcvPkt = new TransportLayerPacket(pkt);
 
@@ -82,6 +89,8 @@ public class Receiver extends TransportLayer{
 
     @Override
     public void timerInterrupt() {
+
+        System.out.println("WHATS UP BRO");
 
     }
 }

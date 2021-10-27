@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        NetworkSimulator sim = new NetworkSimulator(10, 0.0, 0.0, 10.0, false, 1);
+        NetworkSimulator sim = new NetworkSimulator(10, 0.0, 0.0, 10.0, false, 3);
 
         sim.printEventQueue();
 
@@ -14,6 +14,9 @@ public class Main {
         sim.setReceiver(receiver);
 
         sim.runSimulation();
+        byte[] a = {106,116,121,56};
+        Checksum test = new Checksum(a);
+        System.out.println(test.createCheckSum());
     }
 
 }

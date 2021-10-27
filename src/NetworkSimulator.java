@@ -159,7 +159,7 @@ public class NetworkSimulator {
             System.out.format("        (%.2f) NetworkSimulator: STOP TIMER.\n", simulationTime);
         }
 
-       Iterator<Event> i = eventQueue.iterator();
+        Iterator<Event> i = eventQueue.iterator();
         while(i.hasNext()) {
             Event e = i.next();
             if (e.getEvType() == EventType.TIMER_INTERRUPT && e.getEvEntity().equals(t)) {

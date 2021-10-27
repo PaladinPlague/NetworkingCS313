@@ -31,6 +31,25 @@ public class Checksum {
 
     }
 
+    public String createTotal() {
+
+
+        String answer = "00000000";
+
+        for(int i = 0; i<dataBytes.length; i++){
+
+            String one = String.format("%8s", Integer.toBinaryString(dataBytes[i] & 0xFF)).replace(' ', '0');
+            answer = bitAddition(one,answer);
+
+        }
+
+
+        //System.out.println(onesComplement(answer));
+        checksum = answer;
+        return answer;
+
+    }
+
     public boolean checkCheckSum(){
 
         String checkSum = createCheckSum();
@@ -53,6 +72,9 @@ public class Checksum {
     public String bitAddition(String first, String second){
 
         int c = 0;
+
+        System.out.println("First: " + first);
+        System.out.println("Second: " + second);
 
 
         String answer = "";
@@ -97,12 +119,13 @@ public class Checksum {
 
         if(cString.equals("00000000")){
             total = answer;
+            System.out.println(answer);
             return answer;
 
 
         }
         else {
-
+            System.out.println("Carry" + cString);
             return bitAddition(answer,cString);
         }
 
