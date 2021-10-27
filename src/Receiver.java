@@ -39,7 +39,7 @@ public class Receiver extends TransportLayer{
     public void rdt_receive(TransportLayerPacket pkt) {
 
         System.out.println("______________________________");
-        //get the received packet and turn into an usable packet
+        //get the received packet and turn into a usable packet
         rcvPkt = new TransportLayerPacket(pkt);
 
         //check if we have received the same packet twice
@@ -93,8 +93,7 @@ public class Receiver extends TransportLayer{
         //get new checksum for the dat awe just received
         Checksum checksum = new Checksum(rcv_data);
 
-        String total_data = checksum.createCheckSum();
-        total_data = checksum.getTotal();
+        String total_data = checksum.createTotal();
         System.out.println("RECEIVER：checksum for Data received: " + total_data);
 
         //add the two checksum values together (in bits)
@@ -121,10 +120,12 @@ public class Receiver extends TransportLayer{
 
     public TransportLayerPacket mk_pkt(int seq, byte[] data){
 
+        Checksum checksum = new Checksum(data);//initialise Checksum passing data into Checksum
+        String checksumValue = checksum.createCheckSum();//generate checksum
 
-        TransportLayerPacket pkt = new TransportLayerPacket(seq,1,data,"");
+        //use constructor to build new packet
+        return new TransportLayerPacket(seq,1,data,checksumValue);
 
-        return pkt;
     }
 
 

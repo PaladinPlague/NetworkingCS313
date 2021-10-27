@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="need more understanding of how Sender.java works">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Receiver.java working fine, able to send and receive packet normally. Sender.java having problem with getting ACK packet, TBF. Currently testing normal case.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
@@ -97,7 +97,7 @@
       <workItem from="1634771732265" duration="645000" />
       <workItem from="1634840351334" duration="19182000" />
       <workItem from="1635067709013" duration="689000" />
-      <workItem from="1635203360192" duration="22692000" />
+      <workItem from="1635203360192" duration="25999000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -148,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635258464917</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Receiver.java working fine, able to send and receive packet normally. Sender.java having problem with getting ACK packet, TBF. Currently testing normal case.">
+      <created>1635338106405</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1635338106405</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,7 +180,8 @@
     <MESSAGE value="save my work" />
     <MESSAGE value="Receiver.java has been defined (still waiting for checksum), need more understanding of how Sender.java works" />
     <MESSAGE value="need more understanding of how Sender.java works" />
-    <option name="LAST_COMMIT_MESSAGE" value="need more understanding of how Sender.java works" />
+    <MESSAGE value="Receiver.java working fine, able to send and receive packet normally. Sender.java having problem with getting ACK packet, TBF. Currently testing normal case." />
+    <option name="LAST_COMMIT_MESSAGE" value="Receiver.java working fine, able to send and receive packet normally. Sender.java having problem with getting ACK packet, TBF. Currently testing normal case." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -182,11 +190,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
