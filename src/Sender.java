@@ -20,7 +20,7 @@ public class Sender extends TransportLayer {
         //initialise all variable
         System.out.println("SENDER: " + getName() + " has been initialised");
         sndPkt = null;
-        sender = new Sender("sender", simulator);
+        //sender = new Sender("sender", simulator);
 
     }
 
@@ -38,10 +38,10 @@ public class Sender extends TransportLayer {
 
 
         System.out.println("SENDER: packet sent to Network layer");
-        simulator.sendToNetworkLayer(sender,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
+        simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
 
         System.out.println("SENDER: timer started");
-        simulator.startTimer(sender,1); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
+        simulator.startTimer(this,1); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
         System.out.println("______________________________");
         System.out.println();
 
@@ -60,23 +60,23 @@ public class Sender extends TransportLayer {
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
-        TransportLayerPacket rcvPkt = new TransportLayerPacket(pkt);
+        //TransportLayerPacket rcvPkt = new TransportLayerPacket(pkt);
         System.out.println("______________________________");
         System.out.println("SENDER: receiving ACK packet");
         System.out.println("SENDER: checking received ACK packet");
-        if (corruption(rcvPkt) || !isACK(rcvPkt)){
+        if (corruption(pkt) || !isACK(pkt)){
             //if pkt is corrupted or the ACK num is not the right one then
             //wait until timer runs out
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
-            timerInterrupt();
+            simulator.stopTimer(this);
             System.out.println("SENDER: timer stopped, time out!");
 
 
-        }else if(!corruption(rcvPkt) && isACK(rcvPkt)){
+        }else if(!corruption(pkt) && isACK(pkt)){
             //if everything is fine then stop timer waiting to be called from above
 
             System.out.println("SENDER: ACKed");
-            timerInterrupt();
+            simulator.stopTimer(this);
         }
         System.out.println("______________________________");
         System.out.println();
@@ -92,10 +92,10 @@ public class Sender extends TransportLayer {
         byte [] rcv_Data =  rcvPkt.getData(); //extract data from the packet
         //get a new checksum for the data extracted
         Checksum checksum = new Checksum (rcv_Data);
-        String proofChecksum = checksum.createCheckSum();
-
+        String total_data = checksum.createCheckSum();
+        total_data = checksum.getTotal();
         //do binary addition to get a total value of two check sum (which should be all ones)
-        String addedChecksum =  checksum.bitAddition(proofChecksum, rcvPkt.getChecksum());
+        String addedChecksum =  checksum.bitAddition(total_data, rcvPkt.getChecksum());
 
         //loop through all bits to check if all of them equal 1
         for (int i  = 0; i < addedChecksum.length(); i++){
@@ -123,7 +123,7 @@ public class Sender extends TransportLayer {
     public void timerInterrupt() {
         // stop timer
 
-        simulator.stopTimer(sender);
+        //simulator.stopTimer(sender);
 
         //resend the pkt???
         //start timer???

@@ -1,8 +1,8 @@
+import java.util.Arrays;
+
 public class Receiver extends TransportLayer{
 
     TransportLayerPacket rcvPkt ;
-    Receiver receiver;
-
     int prev_SeqNUm;
 
 
@@ -12,29 +12,33 @@ public class Receiver extends TransportLayer{
 
 
     @Override
-    public void init() {
+    public void init(){
 
         //initialise all variable
+
         System.out.println("RECEIVER: " + getName() + " has been initialised");
         rcvPkt = null;
-        receiver = new Receiver("Receiver", simulator);
+        //receiver = new Receiver("Receiver", simulator);
         prev_SeqNUm = -99999; //keep track of the seq num we received
 
     }
 
     @Override
     public void rdt_send(byte[] data) {
+        System.out.println("______________________________");
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
 
         //if everything is being checked and being process make a pkt to send ACK back to sender
-        TransportLayerPacket sndPkt = mk_pkt(rcvPkt.getSeqNum());
+        TransportLayerPacket sndPkt = mk_pkt(rcvPkt.getSeqNum(), data);
         //call sim function to perform udt_send() send to networkLayer
-        simulator.sendToNetworkLayer(receiver,sndPkt);
+        simulator.sendToNetworkLayer(this,sndPkt);
+        System.out.println("______________________________");
     }
 
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
+        System.out.println("______________________________");
         //get the received packet and turn into an usable packet
         rcvPkt = new TransportLayerPacket(pkt);
 
@@ -42,21 +46,23 @@ public class Receiver extends TransportLayer{
         if(prev_SeqNUm == rcvPkt.getSeqNum()){
 
             //duplicate package just ignore
-            System.out.println("Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
+            System.out.println("RECEIVER: Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
             prev_SeqNUm = rcvPkt.getSeqNum();
 
             //else check if the packet is corrupt
         }else if(corruption()){
+            System.out.println("RECEIVER: Received the packet.");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
-            System.out.println("received pkt but problem found, waiting for sender to resend.");
+            System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");
         }else{
             // if no problem found during error check, extract data from the packet
-            System.out.println("Packet received, No problem found sending to Application layer.");
+            System.out.println("RECEIVER: Packet received, No problem found sending to Application layer.");
             //send the data to applicationLayer via sim function
-            simulator.sendToApplicationLayer(receiver,rcvPkt.getData());
+            simulator.sendToApplicationLayer(this,rcvPkt.getData());
             //ready to receive the next packet.
             rdt_send(rcvPkt.getData());
         }
+        System.out.println("______________________________");
 
     }
 
@@ -68,39 +74,55 @@ public class Receiver extends TransportLayer{
     */
     public boolean corruption(){
 
+        System.out.println("{____________________}");
+        System.out.println("RECEIVER：Corruption test starts");
         //if the packet is null (not received) then just return true (corrupted )
         if(rcvPkt == null){
+            System.out.println("RECEIVER：TEST failed Packet is empty");
+            System.out.println("{______________________}");
             return true;
         }
         //extract data from packet
         byte [] rcv_data = rcvPkt.getData();
+        System.out.println("RECEIVER：Packet's data received: " + Arrays.toString(rcv_data));
+
         //get the checksum from the packet used to check for errors
         String rcv_Checksum = rcvPkt.getChecksum();
+        System.out.println("RECEIVER：Packet's checksum: " + rcv_Checksum);
 
         //get new checksum for the dat awe just received
         Checksum checksum = new Checksum(rcv_data);
 
-        String proof_Checksum = checksum.createCheckSum();
+        String total_data = checksum.createCheckSum();
+        total_data = checksum.getTotal();
+        System.out.println("RECEIVER：checksum for Data received: " + total_data);
 
         //add the two checksum values together (in bits)
-        String added_Checksum = checksum.bitAddition(proof_Checksum, rcv_Checksum);
+        String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
+        System.out.println("RECEIVER：Total Checksum : " + added_Checksum);
+
+
 
         //checking bit by bit if all bits equal to 1 then no error found return false
         //else if any bit equal 0, then an error exists return true.
         for(int i = 0; i < added_Checksum.length(); i++){
 
-            if(added_Checksum.charAt(i) != 1){
+            if(added_Checksum.charAt(i) != '1'){
+                System.out.println("RECEIVER：Error occurred at bit position: " + i +" .");
+                System.out.println("{____________________}");
                 //if any of the bits not equal 1 than return corruption equal ture
                 return true;
             }
         }
+
+        System.out.println("{____________________}");
         return false;
     }
 
-    public TransportLayerPacket mk_pkt(int seq){
+    public TransportLayerPacket mk_pkt(int seq, byte[] data){
 
 
-        TransportLayerPacket pkt = new TransportLayerPacket(seq,1,null,"");
+        TransportLayerPacket pkt = new TransportLayerPacket(seq,1,data,"");
 
         return pkt;
     }

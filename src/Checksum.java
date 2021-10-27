@@ -110,6 +110,10 @@ public class Checksum {
 
     }
 
+    public String getTotal(){
+        return total;
+    }
+
     public String onesComplement(String change){
 
         char[] binaryArray = change.toCharArray();

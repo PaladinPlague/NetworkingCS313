@@ -7,6 +7,7 @@
     <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="need more understanding of how Sender.java works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
@@ -28,6 +29,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1yueSWRxJDfEDETksZimMT4Is1s" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -88,7 +97,7 @@
       <workItem from="1634771732265" duration="645000" />
       <workItem from="1634840351334" duration="19182000" />
       <workItem from="1635067709013" duration="689000" />
-      <workItem from="1635203360192" duration="9852000" />
+      <workItem from="1635203360192" duration="22692000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -132,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634915073736</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="need more understanding of how Sender.java works">
+      <created>1635258464917</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1635258464917</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,9 +183,9 @@
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Receiver.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/src/Sender.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
