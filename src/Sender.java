@@ -4,10 +4,6 @@ public class Sender extends TransportLayer {
 
 
     TransportLayerPacket sndPkt;
-    //TransportLayerPacket rcvPkt;
-    Sender sender;
-
-
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -40,8 +36,10 @@ public class Sender extends TransportLayer {
         System.out.println("SENDER: packet sent to Network layer");
         simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
 
+
+
         System.out.println("SENDER: timer started");
-        simulator.startTimer(this,1); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
+        simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
         System.out.println("______________________________");
         System.out.println();
 
@@ -53,8 +51,8 @@ public class Sender extends TransportLayer {
         String checksumValue = checksum.createCheckSum(); //generate checksum
 
         //use constructor to build new packet
-        TransportLayerPacket pkt = new TransportLayerPacket(seqNum,0,data,checksumValue);
-        return pkt;
+        return new TransportLayerPacket(seqNum,0,data,checksumValue);
+
     }
 
     @Override
@@ -72,7 +70,7 @@ public class Sender extends TransportLayer {
             System.out.println("SENDER: timer stopped, time out!");
 
 
-        }else if(!corruption(pkt) && isACK(pkt)){
+        }else{
             //if everything is fine then stop timer waiting to be called from above
 
             System.out.println("SENDER: ACKed");
@@ -84,27 +82,49 @@ public class Sender extends TransportLayer {
     }
 
     public boolean corruption (TransportLayerPacket rcvPkt){
-        //check if packet received is null return true (packet is corrupted) if packet is empty
-        if (rcvPkt == null){
+
+        System.out.println("{____________________}");
+        System.out.println("SENDER：Corruption test starts");
+        //if the packet is null (not received) then just return true (corrupted )
+        if(rcvPkt == null){
+            System.out.println("SENDER：TEST failed Packet is empty");
+            System.out.println("{______________________}");
             return true;
         }
+        //extract data from packet
+        byte [] rcv_data = rcvPkt.getData();
+        System.out.println("SENDER：Packet's data received: " + Arrays.toString(rcv_data));
 
-        byte [] rcv_Data =  rcvPkt.getData(); //extract data from the packet
-        //get a new checksum for the data extracted
-        Checksum checksum = new Checksum (rcv_Data);
-        String total_data = checksum.createCheckSum();
-        total_data = checksum.getTotal();
-        //do binary addition to get a total value of two check sum (which should be all ones)
-        String addedChecksum =  checksum.bitAddition(total_data, rcvPkt.getChecksum());
+        //get the checksum from the packet used to check for errors
+        String rcv_Checksum = rcvPkt.getChecksum();
+        System.out.println("SENDER：Packet's checksum: " + rcv_Checksum);
 
-        //loop through all bits to check if all of them equal 1
-        for (int i  = 0; i < addedChecksum.length(); i++){
-            //if any of the bits not equal 1 then error exists corruption return true
-            if (addedChecksum.charAt(i) != 1){
+        //get new checksum for the dat awe just received
+        Checksum checksum = new Checksum(rcv_data);
+
+        checksum.createCheckSum();
+        String total_data = checksum.createTotal();
+        System.out.println("SENDER：checksum for Data received: " + total_data);
+
+        //add the two checksum values together (in bits)
+        String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
+        System.out.println("SENDER：Total Checksum : " + added_Checksum);
+
+
+
+        //checking bit by bit if all bits equal to 1 then no error found return false
+        //else if any bit equal 0, then an error exists return true.
+        for(int i = 0; i < added_Checksum.length(); i++){
+
+            if(added_Checksum.charAt(i) != '1'){
+                System.out.println("SENDER：Error occurred at bit position: " + i +" .");
+                System.out.println("{____________________}");
+                //if any of the bits not equal 1 than return corruption equal ture
                 return true;
             }
         }
-        //else everything is correct then corruption equal false.
+
+        System.out.println("{____________________}");
         return false;
     }
 
@@ -121,12 +141,6 @@ public class Sender extends TransportLayer {
 
     @Override
     public void timerInterrupt() {
-        // stop timer
-
-        //simulator.stopTimer(sender);
-
-        //resend the pkt???
-        //start timer???
 
     }
 }
