@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="New approach to Sender/Receiver problem started, commentary on how I am approaching issue is present throughout Pipeline classes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReceiverPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SenderPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SenderPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TransportLayerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransportLayerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +106,7 @@
       <workItem from="1635255200116" duration="3664000" />
       <workItem from="1635343775281" duration="6842000" />
       <workItem from="1635361983624" duration="85000" />
-      <workItem from="1635433639745" duration="4892000" />
+      <workItem from="1635433639745" duration="4993000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -165,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635007075128</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="New approach to Sender/Receiver problem started, commentary on how I am approaching issue is present throughout Pipeline classes">
+      <created>1635438541566</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1635438541566</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

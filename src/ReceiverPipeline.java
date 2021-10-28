@@ -32,7 +32,6 @@ public class ReceiverPipeline extends TransportLayer{
     @Override
     public void rdt_send(byte[] data) {
 
-        //Note: as of
         simulator.sendToNetworkLayer(this, sndPkt[lastRecieved]);
 
     }
