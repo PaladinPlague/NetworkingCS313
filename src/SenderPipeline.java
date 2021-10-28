@@ -3,86 +3,57 @@ public class SenderPipeline extends TransportLayer {
     byte[]data;
     TransportLayerPacket[] sndPkt;
     TransportLayerPacket[] rcvPkt;
+    TransportLayerPacket[] delivered;
     Checksum checksum;
     private int N;
     private int sendBase;
-    private int nextSeqnum;
     private boolean[] sent;
     private boolean[] acked;
     private int timeout;
 
 
     public SenderPipeline(String name, NetworkSimulator simulator, int length, int windowSize, int timer) {
-
         super(name, simulator);
-
-        sndPkt = new TransportLayerPacket[length];
-        rcvPkt = new TransportLayerPacket[length];
-        N = windowSize;
-        this.timeout = timer;
-        sent = new boolean[length];
-        acked = new boolean[length];
-
     }
 
 
     @Override
     public void init() {
 
-        nextSeqnum = 0;
+        //Initially, sendBase (first element of window) is 0 and next sequence number expected is 0.
         sendBase = 0;
 
     }
 
     @Override
     public void rdt_send(byte[] data) {
-        if (nextSeqnum < sendBase) {
-            for (int i = sendBase; i < sendBase + N; i++) {
-                if (i > nextSeqnum) {
-                    nextSeqnum = i;
-                }
-                this.sndPkt[i].setSeqnum(i);
-                simulator.sendToNetworkLayer(this, this.sndPkt[i]);
-                sent[i] = true;
+        //Loop through all packets of current window
+        for (int nextSeqnum = sendBase; nextSeqnum < sendBase + N; nextSeqnum++) {
+            //If acknowledgement for this packet is not yet sent, send it.
+            if (!acked[nextSeqnum]) {
+                simulator.sendToNetworkLayer(this,this.sndPkt[nextSeqnum]);
             }
         }
-        simulator.startTimer(this, timeout);
     }
 
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
-
-        if (pkt.getAcknum() == sendBase && sendBase + N < sndPkt.length) {
-            this.rcvPkt[pkt.getAcknum()] = pkt;
-            acked[pkt.getAcknum()] = true;
-            if (pkt.getAcknum() == N + sendBase) {
-                while (acked[sendBase]) {
-                    sendBase += 1;
-                }
+        //put recieved packet into relevant part of array, along with setting boolean value in "acked" array true
+        rcvPkt[pkt.getAckNum()] = pkt;
+        acked[pkt.getAckNum()] = true;
+        //Check if the acknowledgement for this packet is of the first packet yet to be acknowledged
+        if(pkt.getAckNum() == sendBase) {
+            //If this is the case, check if the window size can be shifted right and then carry it out until no longer possible or unacked packet is found.
+            while (!acked[sendBase] && sendBase + N < sndPkt.length) {
+                sendBase += 1;
             }
         }
-
     }
 
     @Override
     public void timerInterrupt() {
-        simulator.startTimer(this, simulator.simulationTime);
-
-        for (int i = sendBase; i < nextSeqnum; i++) {
-            rdt_send(sndPkt[i].getData());
-        }
-
-        //Prototype version of resend packets - May or may not want to discard
-        /*boolean flawFound = false;
-        for (int i = sendBase; i < nextSeqnum && flawFound; i++) {
-            if (sent[i] && acked[i]) {
-                i += 1;
-            } else {
-                flawFound = true;
-                sendBase = i;
-                rdt_send(data);
-            }
-        }*/
+        //resend packet at sequence base number and wait for acknowledement
+        rdt_send(sndPkt[sendBase].getData());
     }
 
 
