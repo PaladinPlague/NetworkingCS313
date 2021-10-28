@@ -1,9 +1,16 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Sender extends TransportLayer {
 
 
     TransportLayerPacket sndPkt;
+    TransportLayerPacket rcvPkt;
+    int seqNumSent;
+    int seqNumSending;
+    static byte[] sendingData;
+    ArrayList<byte[]> data = new ArrayList();
+
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -16,7 +23,10 @@ public class Sender extends TransportLayer {
         //initialise all variable
         System.out.println("SENDER: " + getName() + " has been initialised");
         sndPkt = null;
-        //sender = new Sender("sender", simulator);
+        rcvPkt = null;
+        sendingData = null;
+        seqNumSent = -9999;
+        seqNumSending = 0;
 
     }
 
@@ -28,20 +38,20 @@ public class Sender extends TransportLayer {
         System.out.print("SENDER: The data we got: ");
         System.out.println(Arrays.toString(data)); //to check what data we have been passed
 
+        sendingData = data;
+        System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
+        sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
 
-        System.out.println("SENDER: making packet for data we got");
-        sndPkt = mk_pkt(0, data); //make the packet using mk_pkt()
-
-
-        System.out.println("SENDER: packet sent to Network layer");
+        System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
         simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
-
-
 
         System.out.println("SENDER: timer started");
         simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
         System.out.println("______________________________");
         System.out.println();
+
+
+
 
     }
 
@@ -58,16 +68,18 @@ public class Sender extends TransportLayer {
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
-        //TransportLayerPacket rcvPkt = new TransportLayerPacket(pkt);
+        rcvPkt = new TransportLayerPacket(pkt);
         System.out.println("______________________________");
         System.out.println("SENDER: receiving ACK packet");
         System.out.println("SENDER: checking received ACK packet");
-        if (corruption(pkt) || !isACK(pkt)){
+        if (corruption(rcvPkt) || !isACK(rcvPkt)){
             //if pkt is corrupted or the ACK num is not the right one then
             //wait until timer runs out
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
             simulator.stopTimer(this);
             System.out.println("SENDER: timer stopped, time out!");
+            timerInterrupt();
+
 
 
         }else{
@@ -83,12 +95,12 @@ public class Sender extends TransportLayer {
 
     public boolean corruption (TransportLayerPacket rcvPkt){
 
-        System.out.println("{____________________}");
+        System.out.println("{--------CORRUPTION----------}");
         System.out.println("SENDER：Corruption test starts");
         //if the packet is null (not received) then just return true (corrupted )
         if(rcvPkt == null){
             System.out.println("SENDER：TEST failed Packet is empty");
-            System.out.println("{______________________}");
+            System.out.println("{----------CORRUPTION_TEST--------}");
             return true;
         }
         //extract data from packet
@@ -118,13 +130,13 @@ public class Sender extends TransportLayer {
 
             if(added_Checksum.charAt(i) != '1'){
                 System.out.println("SENDER：Error occurred at bit position: " + i +" .");
-                System.out.println("{____________________}");
+                System.out.println("{--------CORRUPTION_TEST----------}");
                 //if any of the bits not equal 1 than return corruption equal ture
                 return true;
             }
         }
 
-        System.out.println("{____________________}");
+        System.out.println("{--------CORRUPTION_TEST----------}");
         return false;
     }
 
@@ -133,7 +145,6 @@ public class Sender extends TransportLayer {
             //check if the ACK is the correct ACK
             // when we wait for ACK 0, and we got ACK 1 then we know it is not the right one
             //if we received the correct ACK num then return true else false
-
             return rcvPkt.getAckNum() == 1;
         }
         return false;
@@ -141,6 +152,13 @@ public class Sender extends TransportLayer {
 
     @Override
     public void timerInterrupt() {
+        System.out.println("______________________________");
+        System.out.println("SENDER: testing the functionality for Time Interrupt");
 
+        System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
+
+        rdt_send(sendingData);
+        System.out.println("SENDER: Resending the packet");
+        System.out.println("______________________________");
     }
 }
