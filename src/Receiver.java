@@ -19,7 +19,7 @@ public class Receiver extends TransportLayer{
         System.out.println("RECEIVER: " + getName() + " has been initialised");
         rcvPkt = null;
         //receiver = new Receiver("Receiver", simulator);
-        prev_SeqNUm = -99999; //keep track of the seq num we received
+        prev_SeqNUm = -9999; //keep track of the seq num we received
 
     }
 
@@ -29,9 +29,9 @@ public class Receiver extends TransportLayer{
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
 
         //if everything is being checked and being process make a pkt to send ACK back to sender
-        TransportLayerPacket sndPkt = mk_pkt(rcvPkt.getSeqNum(), data);
+        TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum(), data);
         //call sim function to perform udt_send() send to networkLayer
-        simulator.sendToNetworkLayer(this,sndPkt);
+        simulator.sendToNetworkLayer(this,sendingPkt); // This line is sending daa to Network stimulator with this data
         System.out.println("______________________________");
     }
 
@@ -51,7 +51,7 @@ public class Receiver extends TransportLayer{
 
             //else check if the packet is corrupt
         }else if(corruption()){
-            System.out.println("RECEIVER: Received the packet.");
+            System.out.println("RECEIVER: Received the packet "+rcvPkt.getSeqNum()+".");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
             System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");
         }else{
