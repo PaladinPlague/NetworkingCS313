@@ -174,6 +174,7 @@ public class Sender extends TransportLayer {
         System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
         System.out.println("SENDER: Resending the packet");
         System.out.println("______________________________");
+        status = "Ready";
         rdt_send(sendingData);
 
     }
