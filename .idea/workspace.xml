@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Suleman's branch for part 1. cloned from master branch, init version.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
     </list>
@@ -29,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="suleman_main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,6 +47,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -68,7 +67,13 @@
       <recent name="C:\Users\micha\OneDrive\Desktop\StrathClyde\MEng UGCS3\CS313\Networking Team15\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Networking Team15" />
@@ -79,6 +84,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -204,12 +210,12 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>83</line>
+          <line>88</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>79</line>
+          <line>84</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -219,5 +225,16 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="NetworkSimulator" memberName="sender" />
+        <PinnedItemInfo parentTag="Sender" memberName="seqNumSending" />
+        <PinnedItemInfo parentTag="NetworkSimulator" memberName="debugLevel" />
+        <PinnedItemInfo parentTag="Sender" memberName="sndPkt" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/cs313_networking_team15_2021$Main.ic" NAME="Main Coverage Results" MODIFIED="1635037039323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

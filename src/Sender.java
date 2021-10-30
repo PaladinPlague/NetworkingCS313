@@ -25,7 +25,6 @@ public class Sender extends TransportLayer {
         System.out.println("SENDER: " + getName() + " has been initialised");
         sndPkt = null;
         rcvPkt = null;
-        sendingData = null;
         prevSeqNum = 1;
         seqNumSending = 0;
         status = "Ready";
@@ -47,7 +46,7 @@ public class Sender extends TransportLayer {
             System.out.print("SENDER: The data we got: ");
             System.out.println(Arrays.toString(data)); //to check what data we have been passed
 
-            sendingData = data;
+
             System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
             sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
 
@@ -55,6 +54,12 @@ public class Sender extends TransportLayer {
             seqNumSending = (seqNumSending^1);
 
             System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
+
+            sendingData = new byte[data.length];
+            for(int i = 0; i<sendingData.length; i++){
+                sendingData[i] = data[i];
+            }
+
             simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
 
             System.out.println("SENDER: timer started");
