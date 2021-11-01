@@ -1,5 +1,6 @@
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Sender extends TransportLayer {
 
@@ -10,8 +11,6 @@ public class Sender extends TransportLayer {
     int seqNumSending;
     static byte[] sendingData;
     String status;
-
-
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -36,38 +35,19 @@ public class Sender extends TransportLayer {
         System.out.println();
         System.out.println("______________________________");
 
-
-        //if we try to send a pck is not yet ACKed don't send
-
-
-        if(status != "Ready"){
-            System.out.println("SENDER: We haven't get ACK for previous Packet");
-        }else{
-            System.out.print("SENDER: The data we got: ");
-            System.out.println(Arrays.toString(data)); //to check what data we have been passed
+        System.out.print("SENDER: The data we got: ");
+        System.out.println(Arrays.toString(data)); //to check what data we have been passed
 
 
-            System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
-            sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
+        System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
+        sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
 
-            prevSeqNum = seqNumSending;
-            seqNumSending = (seqNumSending^1);
+        sendingData = new byte[data.length];
+        System.arraycopy(data, 0, sendingData, 0, sendingData.length);
 
-            System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
+        status="Ready";
+        timerInterrupt();
 
-            sendingData = new byte[data.length];
-            for(int i = 0; i<sendingData.length; i++){
-                sendingData[i] = data[i];
-            }
-
-            simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
-
-            System.out.println("SENDER: timer started");
-            simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
-            System.out.println("______________________________");
-            System.out.println();
-            status = "Sent&Wait";
-        }
     }
 
     public TransportLayerPacket mk_pkt(int seqNum, byte[] data){
@@ -87,13 +67,12 @@ public class Sender extends TransportLayer {
         System.out.println("______________________________");
         System.out.println("SENDER: receiving ACK packet");
         System.out.println("SENDER: checking received ACK packet");
-        if (corruption(rcvPkt) || !isACK(rcvPkt)){
+        if (!isACK(rcvPkt)){
             //if pkt is corrupted or the ACK num is not the right one then
             //wait until timer runs out
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
-            simulator.stopTimer(this);
-            System.out.println("SENDER: timer stopped, time out!");
-            status = "Error&Resend";
+
+            status = "Resend";
             timerInterrupt();
 
         }else{
@@ -105,6 +84,7 @@ public class Sender extends TransportLayer {
 
             status = "Ready";
             simulator.stopTimer(this);
+            System.out.println("SENDER: Timer stopped");
         }
         System.out.println("______________________________");
         System.out.println();
@@ -157,7 +137,7 @@ public class Sender extends TransportLayer {
     }
 
     public boolean isACK(TransportLayerPacket rcvPkt){
-        if (rcvPkt != null && rcvPkt.getSeqNum() == prevSeqNum){
+        if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending){
             //check if the ACK is the correct ACK
             // when we wait for ACK 0, and we got ACK 1 then we know it is not the right one
             //if we received the correct ACK num then return true else false
@@ -169,13 +149,32 @@ public class Sender extends TransportLayer {
     @Override
     public void timerInterrupt() {
         System.out.println("______________________________");
-        System.out.println("SENDER: testing the functionality for Time Interrupt");
+        System.out.println("SENDER: timerInterrupt");
 
-        System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
-        System.out.println("SENDER: Resending the packet");
-        System.out.println("______________________________");
-        status = "Ready";
-        rdt_send(sendingData);
+        if(Objects.equals(status, "Ready")){
+
+            System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
+            simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
+            System.out.println("SENDER: timer started");
+            simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
+            System.out.println("______________________________");
+            System.out.println();
+            status = "Sent&Wait";
+
+        }else if(Objects.equals(status,"Resend")||Objects.equals(status,"Sent&Wait")){
+            simulator.stopTimer(this);
+            System.out.println("SENDER: timer stopped, time out!");
+            System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
+            System.out.println("SENDER: Resending the packet");
+            System.out.println("______________________________");
+            rdt_send(sendingData);
+        }
+
+
+
+
+
+
 
     }
 }
