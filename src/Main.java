@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        NetworkSimulator sim = new NetworkSimulator(3, 0.0, 0.0, 10.0, false, 4);
+        NetworkSimulator sim = new NetworkSimulator(2, 0.0, 50.0, 10.0, false, 4);
 
 
         // TODO: Set the sender   (sim.setSender)

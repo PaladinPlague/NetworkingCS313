@@ -1,6 +1,5 @@
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class Sender extends TransportLayer {
 
@@ -11,6 +10,7 @@ public class Sender extends TransportLayer {
     int seqNumSending;
     static byte[] sendingData;
     String status;
+    Queue<byte[]> dataQueue;
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -27,6 +27,7 @@ public class Sender extends TransportLayer {
         prevSeqNum = 1;
         seqNumSending = 0;
         status = "Ready";
+        dataQueue = new LinkedList<>();
     }
 
     @Override
@@ -49,6 +50,8 @@ public class Sender extends TransportLayer {
             timerInterrupt();
         }else{
             System.out.println("WAIT");
+            dataQueue.add(data);
+            //System.out.println("data Queue contains: "+ Arrays.toString(dataQueue.poll()));
         }
 
 
@@ -90,6 +93,10 @@ public class Sender extends TransportLayer {
             status = "Ready";
             simulator.stopTimer(this);
             System.out.println("SENDER: Timer stopped");
+            if(!dataQueue.isEmpty()){
+                rdt_send(dataQueue.poll());
+            }
+
         }
         System.out.println("______________________________");
         System.out.println();
