@@ -4,6 +4,7 @@ public class Receiver extends TransportLayer{
 
     TransportLayerPacket rcvPkt ;
     int prev_SeqNUm;
+    int ackNum;
 
 
     public Receiver(String name, NetworkSimulator simulator) {
@@ -29,7 +30,7 @@ public class Receiver extends TransportLayer{
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
 
         //if everything is being checked and being process make a pkt to send ACK back to sender
-        TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum(), data);
+        TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum());
         //call sim function to perform udt_send() send to networkLayer
         simulator.sendToNetworkLayer(this,sendingPkt); // This line is sending daa to Network stimulator with this data
         System.out.println("______________________________");
@@ -54,13 +55,17 @@ public class Receiver extends TransportLayer{
             System.out.println("RECEIVER: Received the packet "+rcvPkt.getSeqNum()+".");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
             System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");
+            ackNum = 0;
+            rdt_send(new byte[1]);
+
         }else{
             // if no problem found during error check, extract data from the packet
             System.out.println("RECEIVER: Packet received, No problem found sending to Application layer.");
             //send the data to applicationLayer via sim function
             simulator.sendToApplicationLayer(this,rcvPkt.getData());
             //ready to receive the next packet.
-            rdt_send(rcvPkt.getData());
+            ackNum = 1;
+            rdt_send(new byte[1]);
         }
         System.out.println("______________________________");
 
@@ -118,13 +123,10 @@ public class Receiver extends TransportLayer{
         return false;
     }
 
-    public TransportLayerPacket mk_pkt(int seq, byte[] data){
-
-        Checksum checksum = new Checksum(data);//initialise Checksum passing data into Checksum
-        String checksumValue = checksum.createCheckSum();//generate checksum
+    public TransportLayerPacket mk_pkt(int seqNum){
 
         //use constructor to build new packet
-        return new TransportLayerPacket(seq,1,data,checksumValue);
+        return new TransportLayerPacket(seqNum,ackNum,new byte[1],"");
 
     }
 

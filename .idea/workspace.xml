@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Suleman's branch for part 1. cloned from master branch, init version.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
     </list>
@@ -27,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="suleman_main" />
+        <entry key="$PROJECT_DIR$" value="Michael" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,7 +48,6 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -67,13 +67,7 @@
       <recent name="C:\Users\micha\OneDrive\Desktop\StrathClyde\MEng UGCS3\CS313\Networking Team15\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Networking Team15" />
@@ -84,7 +78,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -108,6 +103,8 @@
       <workItem from="1634840351334" duration="19182000" />
       <workItem from="1635067709013" duration="689000" />
       <workItem from="1635203360192" duration="25999000" />
+      <workItem from="1635630000113" duration="4253000" />
+      <workItem from="1635756009382" duration="18295000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -172,7 +169,28 @@
       <option name="project" value="LOCAL" />
       <updated>1635426830419</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="save to my branch">
+      <created>1635624802350</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1635624802350</updated>
+    </task>
+    <task id="LOCAL-00011" summary="try to implement the Timer interrupt, with it have control of the stop and wait. Timer is acting weirdly, we can't stop a timer even it is started.">
+      <created>1635762619648</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1635762619648</updated>
+    </task>
+    <task id="LOCAL-00012" summary="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer.">
+      <created>1635770189255</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1635770189255</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +217,10 @@
     <MESSAGE value="need more understanding of how Sender.java works" />
     <MESSAGE value="Receiver.java working fine, able to send and receive packet normally. Sender.java having problem with getting ACK packet, TBF. Currently testing normal case." />
     <MESSAGE value="Suleman's branch for part 1. cloned from master branch, init version." />
-    <option name="LAST_COMMIT_MESSAGE" value="Suleman's branch for part 1. cloned from master branch, init version." />
+    <MESSAGE value="save to my branch" />
+    <MESSAGE value="try to implement the Timer interrupt, with it have control of the stop and wait. Timer is acting weirdly, we can't stop a timer even it is started." />
+    <MESSAGE value="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer." />
+    <option name="LAST_COMMIT_MESSAGE" value="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -209,32 +230,19 @@
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/NetworkSimulator.java</url>
           <line>95</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Sender.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="NetworkSimulator" memberName="sender" />
-        <PinnedItemInfo parentTag="Sender" memberName="seqNumSending" />
-        <PinnedItemInfo parentTag="NetworkSimulator" memberName="debugLevel" />
-        <PinnedItemInfo parentTag="Sender" memberName="sndPkt" />
-      </pinned-members>
-    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/cs313_networking_team15_2021$Main.ic" NAME="Main Coverage Results" MODIFIED="1635037039323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Networking_Team15$Main.ic" NAME="Main Coverage Results" MODIFIED="1635528032039" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
