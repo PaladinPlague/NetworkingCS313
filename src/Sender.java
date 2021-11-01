@@ -34,19 +34,24 @@ public class Sender extends TransportLayer {
 
         System.out.println();
         System.out.println("______________________________");
+        if(Objects.equals(status, "Ready")||Objects.equals(status, "Resend")){
+            System.out.print("SENDER: The data we got: ");
+            System.out.println(Arrays.toString(data)); //to check what data we have been passed
 
-        System.out.print("SENDER: The data we got: ");
-        System.out.println(Arrays.toString(data)); //to check what data we have been passed
+
+            System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
+            sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
+
+            sendingData = new byte[data.length];
+            System.arraycopy(data, 0, sendingData, 0, sendingData.length);
+
+            status="Ready";
+            timerInterrupt();
+        }else{
+            System.out.println("WAIT");
+        }
 
 
-        System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
-        sndPkt = mk_pkt(seqNumSending, data); //make the packet using mk_pkt()
-
-        sendingData = new byte[data.length];
-        System.arraycopy(data, 0, sendingData, 0, sendingData.length);
-
-        status="Ready";
-        timerInterrupt();
 
     }
 
@@ -91,50 +96,6 @@ public class Sender extends TransportLayer {
 
     }
 
-    public boolean corruption (TransportLayerPacket rcvPkt){
-
-        System.out.println("{--------CORRUPTION----------}");
-        System.out.println("SENDER：Corruption test starts");
-        //if the packet is null (not received) then just return true (corrupted )
-        if(rcvPkt == null){
-            System.out.println("SENDER：TEST failed Packet is empty");
-            System.out.println("{----------CORRUPTION_TEST--------}");
-            return true;
-        }
-        //extract data from packet
-        byte [] rcv_data = rcvPkt.getData();
-        System.out.println("SENDER：Packet's data received: " + Arrays.toString(rcv_data));
-
-        //get the checksum from the packet used to check for errors
-        String rcv_Checksum = rcvPkt.getChecksum();
-        System.out.println("SENDER：Packet's checksum: " + rcv_Checksum);
-
-        //get new checksum for the dat awe just received
-        Checksum checksum = new Checksum(rcv_data);
-
-        checksum.createCheckSum();
-        String total_data = checksum.createTotal();
-        System.out.println("SENDER：checksum for Data received: " + total_data);
-
-        //add the two checksum values together (in bits)
-        String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
-        System.out.println("SENDER：Total Checksum : " + added_Checksum);
-
-        //checking bit by bit if all bits equal to 1 then no error found return false
-        //else if any bit equal 0, then an error exists return true.
-        for(int i = 0; i < added_Checksum.length(); i++){
-
-            if(added_Checksum.charAt(i) != '1'){
-                System.out.println("SENDER：Error occurred at bit position: " + i +" .");
-                System.out.println("{--------CORRUPTION_TEST----------}");
-                //if any of the bits not equal 1 than return corruption equal ture
-                return true;
-            }
-        }
-
-        System.out.println("{--------CORRUPTION_TEST----------}");
-        return false;
-    }
 
     public boolean isACK(TransportLayerPacket rcvPkt){
         if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending){
@@ -161,20 +122,15 @@ public class Sender extends TransportLayer {
             System.out.println();
             status = "Sent&Wait";
 
-        }else if(Objects.equals(status,"Resend")||Objects.equals(status,"Sent&Wait")){
+        }else if(Objects.equals(status,"Resend")){
             simulator.stopTimer(this);
             System.out.println("SENDER: timer stopped, time out!");
             System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
             System.out.println("SENDER: Resending the packet");
             System.out.println("______________________________");
             rdt_send(sendingData);
+        }else{
+            System.out.println("SENDER: Please Wait for the ACK of prev packet.");
         }
-
-
-
-
-
-
-
     }
 }
