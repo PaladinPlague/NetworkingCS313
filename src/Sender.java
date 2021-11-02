@@ -47,7 +47,13 @@ public class Sender extends TransportLayer {
             System.arraycopy(data, 0, sendingData, 0, sendingData.length);
 
             status="Ready";
-            timerInterrupt();
+            System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
+            simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
+            System.out.println("SENDER: timer started");
+            simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
+            System.out.println("______________________________");
+            System.out.println();
+            status = "Sent&Wait";
         }else{
             System.out.println("WAIT");
             dataQueue.add(data);
@@ -81,7 +87,7 @@ public class Sender extends TransportLayer {
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
 
             status = "Resend";
-            timerInterrupt();
+
 
         }else{
             //if everything is fine then stop timer waiting to be called from above
@@ -117,27 +123,15 @@ public class Sender extends TransportLayer {
     @Override
     public void timerInterrupt() {
         System.out.println("______________________________");
-        System.out.println("SENDER: timerInterrupt");
+        System.out.println("SENDER: RESEND");
 
-        if(Objects.equals(status, "Ready")){
+        simulator.stopTimer(this);
+        System.out.println("SENDER: timer stopped, time out!");
+        System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
+        System.out.println("SENDER: Resending the packet");
+        System.out.println("______________________________");
+        status = "Resend";
+        rdt_send(sendingData);
 
-            System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
-            simulator.sendToNetworkLayer(this,sndPkt); //call sim function to perform udt_send() send to NetworkLayer
-            System.out.println("SENDER: timer started");
-            simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
-            System.out.println("______________________________");
-            System.out.println();
-            status = "Sent&Wait";
-
-        }else if(Objects.equals(status,"Resend")){
-            simulator.stopTimer(this);
-            System.out.println("SENDER: timer stopped, time out!");
-            System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
-            System.out.println("SENDER: Resending the packet");
-            System.out.println("______________________________");
-            rdt_send(sendingData);
-        }else{
-            System.out.println("SENDER: Please Wait for the ACK of prev packet.");
-        }
     }
 }
