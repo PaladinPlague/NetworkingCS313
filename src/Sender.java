@@ -12,7 +12,7 @@ public class Sender extends TransportLayer {
     String status;
     Queue<byte[]> dataQueue;
     Queue <byte[]> dataList;
-    boolean c = false;
+    boolean doSend = false;
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -35,7 +35,8 @@ public class Sender extends TransportLayer {
 
     @Override
     public void rdt_send(byte[] data) {
-        if(c == false) {
+
+        if(doSend == false) {
 
                 System.out.println();
                 System.out.println("______________________________");
@@ -47,12 +48,11 @@ public class Sender extends TransportLayer {
                 sndPkt = mk_pkt(seqNumSending, data);
                 simulator.sendToNetworkLayer(this, sndPkt);
                 simulator.startTimer(this, 100);
-                c = true;
+                doSend = true;
 
         }
         else{
             dataQueue.add(data);
-            System.out.println("WAITTTT");
         }
     }
 
@@ -68,16 +68,15 @@ public class Sender extends TransportLayer {
 
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
-        c = true;
+        doSend = true;
         int ack = pkt.getAckNum();
 
 
         if(ack == 0){
             simulator.stopTimer(this);
             if(!dataQueue.isEmpty()){
-                c = false;
+                doSend = false;
                 rdt_send(dataQueue.poll());
-                simulator.stopTimer(this);
             }
         }
         else {

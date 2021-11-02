@@ -29,14 +29,6 @@ public class Receiver extends TransportLayer{
 
         //use constructor to build new packet
         int oldAck = ackNum;
-        if(ackNum == 0){
-
-            ackNum = 1;
-        }
-        else{
-
-            ackNum = 0;
-        }
 
         return new TransportLayerPacket(seqNum,oldAck,data,checksumValue);
 
