@@ -2,8 +2,8 @@ import java.util.Arrays;
 
 public class Receiver extends TransportLayer{
 
-    TransportLayerPacket rcvPkt ;
-    int prev_SeqNUm;
+    TransportLayerPacket rcvPkt;//the received packet segment we are current processing
+    int prev_SeqNum; //the last seq number we have processed
 
     public Receiver(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -14,21 +14,25 @@ public class Receiver extends TransportLayer{
 
         //initialise all variable
         System.out.println("RECEIVER: " + getName() + " has been initialised");
-        rcvPkt = null;
-        prev_SeqNUm = 1; //keep track of the seq num we received
+        rcvPkt = null;//starting with null segment
+        //since the first packet we will receive is also pkt 0 then it is safe to assume the prev_SeqNum is 1
+        prev_SeqNum = 1;
 
     }
 
     @Override
     public void rdt_send(byte[] data) {
+
         System.out.println("______________________________");
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
 
         //if everything is being checked and being process make a pkt to send ACK back to sender
         TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum());
+
         //call sim function to perform udt_send() send to networkLayer
-        simulator.sendToNetworkLayer(this,sendingPkt); // This line is sending daa to Network stimulator with this data
-        prev_SeqNUm = rcvPkt.getSeqNum();
+        // This line is sending daa to Network stimulator with this data
+        simulator.sendToNetworkLayer(this,sendingPkt);
+        prev_SeqNum = rcvPkt.getSeqNum();
         System.out.println("______________________________");
     }
 
@@ -38,9 +42,10 @@ public class Receiver extends TransportLayer{
         System.out.println("______________________________");
         //get the received packet and turn into a usable packet
         rcvPkt = new TransportLayerPacket(pkt);
-        //prev_SeqNUm = rcvPkt.getSeqNum();
+
+
         //check if we have received the same packet twice
-        if(prev_SeqNUm == rcvPkt.getSeqNum()){
+        if(prev_SeqNum == rcvPkt.getSeqNum()){
 
             //duplicate package just ignore
             System.out.println("RECEIVER: Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
@@ -60,6 +65,10 @@ public class Receiver extends TransportLayer{
             simulator.sendToApplicationLayer(this,rcvPkt.getData());
             //ready to receive the next packet.
 
+            //we finished with this packet set the current seqNum to be the prevSeqNum
+            prev_SeqNum = rcvPkt.getSeqNum();
+
+            //for acknowledgement packet segment we don't need to pass back the original data so just keep a dummy value
             rdt_send(new byte[1]);
         }
         System.out.println("______________________________");
