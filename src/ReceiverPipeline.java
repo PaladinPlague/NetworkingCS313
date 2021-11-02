@@ -167,7 +167,6 @@ public class ReceiverPipeline extends TransportLayer{
     public void recheckBuffer () {
         //System.out.print statements are used to debug output of receiver packet removals. When this starts, a boolean variable will change
         boolean noOutput = true;
-        System.out.print("RECEIVER: packets that have been removed from buffer are: ");
         boolean finished = false;
         //Once we know we cannot obtain any more packets, finish looping
         while (!finished) {
@@ -181,6 +180,7 @@ public class ReceiverPipeline extends TransportLayer{
                     //Output strings of removed packets by their related sequence numbers.
                     if (noOutput) {
                         System.out.print("RECEIVER: buffer packets removed: " + buffer.get(i).getSeqNum());
+                        noOutput = false;
                     } else {
                         System.out.print(", " + buffer.get(i).getSeqNum());
                     }
