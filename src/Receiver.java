@@ -43,16 +43,8 @@ public class Receiver extends TransportLayer{
         //get the received packet and turn into a usable packet
         rcvPkt = new TransportLayerPacket(pkt);
 
-
-        //check if we have received the same packet twice
-        if(prev_SeqNum == rcvPkt.getSeqNum()){
-
-            //duplicate package just ignore
-            System.out.println("RECEIVER: Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
-
-
-            //else check if the packet is corrupt
-        }else if(corruption()){
+        //check is the packet payload has been corrupted
+        if(corruption()){
             System.out.println("RECEIVER: Received the packet "+rcvPkt.getSeqNum()+".");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
             System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");

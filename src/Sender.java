@@ -164,13 +164,6 @@ public class Sender extends TransportLayer {
         System.out.println("______________________________");
         System.out.println("SENDER: RESEND");
 
-        //QUESTIONS: do we need to stop timer if timerInterrupt is a manual simulation of timeout
-        // TODO: Confirm the above question.
-        simulator.stopTimer(this);
-        System.out.println("SENDER: timer stopped, time out!");
-        //end of question
-
-
         System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
         System.out.println("SENDER: Resending the packet");
         System.out.println("______________________________");

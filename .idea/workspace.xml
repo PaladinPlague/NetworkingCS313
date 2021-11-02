@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="removed N-ACK and full test required">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
@@ -108,7 +108,7 @@
       <workItem from="1635756009382" duration="19065000" />
       <workItem from="1635789494941" duration="9414000" />
       <workItem from="1635845670859" duration="13851000" />
-      <workItem from="1635868516436" duration="316000" />
+      <workItem from="1635868516436" duration="4046000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -208,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635857986968</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code.">
+      <created>1635868918322</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1635868918322</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,7 +247,8 @@
     <MESSAGE value="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer." />
     <MESSAGE value="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out." />
     <MESSAGE value="removed N-ACK and full test required" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed N-ACK and full test required" />
+    <MESSAGE value="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code." />
+    <option name="LAST_COMMIT_MESSAGE" value="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
