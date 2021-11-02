@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +105,9 @@
       <workItem from="1635067709013" duration="689000" />
       <workItem from="1635203360192" duration="25999000" />
       <workItem from="1635630000113" duration="4253000" />
-      <workItem from="1635756009382" duration="18295000" />
+      <workItem from="1635756009382" duration="19065000" />
+      <workItem from="1635789494941" duration="9414000" />
+      <workItem from="1635845670859" duration="6392000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -190,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635770189255</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out.">
+      <created>1635783049872</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1635783049872</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +230,8 @@
     <MESSAGE value="save to my branch" />
     <MESSAGE value="try to implement the Timer interrupt, with it have control of the stop and wait. Timer is acting weirdly, we can't stop a timer even it is started." />
     <MESSAGE value="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer." />
-    <option name="LAST_COMMIT_MESSAGE" value="try to use  Negative ACK and manage to stop simulator sending multiple packet, Queue might be needed as a buffer." />
+    <MESSAGE value="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out." />
+    <option name="LAST_COMMIT_MESSAGE" value="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -233,11 +244,6 @@
           <url>file://$PROJECT_DIR$/src/NetworkSimulator.java</url>
           <line>95</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Sender.java</url>
-          <line>124</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

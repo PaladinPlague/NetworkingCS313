@@ -4,23 +4,18 @@ public class Receiver extends TransportLayer{
 
     TransportLayerPacket rcvPkt ;
     int prev_SeqNUm;
-    int ackNum;
-
 
     public Receiver(String name, NetworkSimulator simulator) {
         super(name, simulator);
     }
 
-
     @Override
     public void init(){
 
         //initialise all variable
-
         System.out.println("RECEIVER: " + getName() + " has been initialised");
         rcvPkt = null;
-        //receiver = new Receiver("Receiver", simulator);
-        prev_SeqNUm = -9999; //keep track of the seq num we received
+        prev_SeqNUm = 1; //keep track of the seq num we received
 
     }
 
@@ -33,6 +28,7 @@ public class Receiver extends TransportLayer{
         TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum());
         //call sim function to perform udt_send() send to networkLayer
         simulator.sendToNetworkLayer(this,sendingPkt); // This line is sending daa to Network stimulator with this data
+        prev_SeqNUm = rcvPkt.getSeqNum();
         System.out.println("______________________________");
     }
 
@@ -42,21 +38,20 @@ public class Receiver extends TransportLayer{
         System.out.println("______________________________");
         //get the received packet and turn into a usable packet
         rcvPkt = new TransportLayerPacket(pkt);
-
+        //prev_SeqNUm = rcvPkt.getSeqNum();
         //check if we have received the same packet twice
         if(prev_SeqNUm == rcvPkt.getSeqNum()){
 
             //duplicate package just ignore
             System.out.println("RECEIVER: Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
-            prev_SeqNUm = rcvPkt.getSeqNum();
+
 
             //else check if the packet is corrupt
         }else if(corruption()){
             System.out.println("RECEIVER: Received the packet "+rcvPkt.getSeqNum()+".");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
             System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");
-            ackNum = 0;
-            rdt_send(new byte[1]);
+
 
         }else{
             // if no problem found during error check, extract data from the packet
@@ -64,7 +59,7 @@ public class Receiver extends TransportLayer{
             //send the data to applicationLayer via sim function
             simulator.sendToApplicationLayer(this,rcvPkt.getData());
             //ready to receive the next packet.
-            ackNum = 1;
+
             rdt_send(new byte[1]);
         }
         System.out.println("______________________________");
@@ -105,8 +100,6 @@ public class Receiver extends TransportLayer{
         String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
         System.out.println("RECEIVER：Total Checksum : " + added_Checksum);
 
-
-
         //checking bit by bit if all bits equal to 1 then no error found return false
         //else if any bit equal 0, then an error exists return true.
         for(int i = 0; i < added_Checksum.length(); i++){
@@ -126,11 +119,9 @@ public class Receiver extends TransportLayer{
     public TransportLayerPacket mk_pkt(int seqNum){
 
         //use constructor to build new packet
-        return new TransportLayerPacket(seqNum,ackNum,new byte[1],"");
+        return new TransportLayerPacket(seqNum,1,new byte[1],"");
 
     }
-
-
 
     @Override
     public void timerInterrupt() {
