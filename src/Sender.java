@@ -35,9 +35,8 @@ public class Sender extends TransportLayer {
 
     @Override
     public void rdt_send(byte[] data) {
-        dataQueue.add(data);
         if(c == false) {
-            if (dataQueue.isEmpty()) {
+
                 System.out.println();
                 System.out.println("______________________________");
 
@@ -48,10 +47,12 @@ public class Sender extends TransportLayer {
                 sndPkt = mk_pkt(seqNumSending, data);
                 simulator.sendToNetworkLayer(this, sndPkt);
                 simulator.startTimer(this, 100);
-            }
+                c = true;
+
         }
         else{
             dataQueue.add(data);
+            System.out.println("WAITTTT");
         }
     }
 
@@ -73,9 +74,15 @@ public class Sender extends TransportLayer {
 
         if(ack == 0){
             simulator.stopTimer(this);
+            if(!dataQueue.isEmpty()){
+                c = false;
+                rdt_send(dataQueue.poll());
+                simulator.stopTimer(this);
+            }
         }
         else {
             /// Do nothing...
+
         }
 
     }
