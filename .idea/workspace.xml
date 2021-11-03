@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Created new version of Pipeline method that considers data stored in &quot;dataList&quot; as packets to be sent. Currently facing problem where code stops after sender sends packets to reciever.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
@@ -118,7 +120,7 @@
       <workItem from="1635844552156" duration="7114000" />
       <workItem from="1635859225265" duration="19829000" />
       <workItem from="1635933369198" duration="4008000" />
-      <workItem from="1635946854941" duration="15526000" />
+      <workItem from="1635946854941" duration="25991000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -211,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635900897352</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet.">
+      <created>1635962564081</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1635962564081</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,6 +251,18 @@
     <MESSAGE value="Currently implementing further working version of Pipeline process for updated RDT functions. Currently satisfied with progress on &quot;ReceiverPipeline&quot; version of process, more work is needed on &quot;SenderPipeline&quot; version of process." />
     <MESSAGE value="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present." />
     <MESSAGE value="Created new version of Pipeline method that considers data stored in &quot;dataList&quot; as packets to be sent. Currently facing problem where code stops after sender sends packets to reciever." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created new version of Pipeline method that considers data stored in &quot;dataList&quot; as packets to be sent. Currently facing problem where code stops after sender sends packets to reciever." />
+    <MESSAGE value="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/SenderBackup.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
