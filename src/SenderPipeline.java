@@ -3,20 +3,17 @@ import java.util.*;
 public class SenderPipeline extends TransportLayer {
 
 
-    ArrayList<TransportLayerPacket> sndPkt;
-    ArrayList<TransportLayerPacket> rcvPkt;
-    int prevSeqNum;
-    //QUESTION FOR MICHAEL: my implementation assumes this variable is representing the sequence number of the minimum packet that hasn't been sent yet. Is this correct?
-    int seqNumSending;
-    static byte[] sendingData;
-    String status;
-    Queue<byte[]> dataQueue;
+    TransportLayerPacket sndPkt; //the sending packet segment we are currently processing
+    TransportLayerPacket rcvPkt; //the acknowledgment packet segment we are current processing
+    int prevSeqNum; //the last seq number we have processed
+    int seqNumSending; //the current seq number we are processing
+    static byte[] sendingData; //save a copy of original data used for resending
+    String status; //register the status of sender currently at
 
-    //Holds the size of the window
-    int windowSize;
-
-    //Holds list of all known acknowledged packets based on numbers
-    ArrayList<Integer> acked;
+    ArrayList<byte[]> dataList; //set up ArrayList where any bytes stored can be evaluated at any time
+    int sendBase; //Holds the base position of the window
+    int windowSize; //Holds the size of the window
+    ArrayList<Integer> acked; //Holds list of all known acknowledged packet numbers
 
     public SenderPipeline(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -28,15 +25,18 @@ public class SenderPipeline extends TransportLayer {
 
         //initialise all variable
         System.out.println("SENDER: " + getName() + " has been initialised");
-        sndPkt = new ArrayList<>();
-        rcvPkt = new ArrayList<>();
-        prevSeqNum = 1;
-        seqNumSending = 0;
-        status = "Ready";
-        dataQueue = new LinkedList<>();
+        sndPkt = null; //starting with null segment
+        rcvPkt = null;//starting with null segment
+        prevSeqNum = 1;//if the current seqNum start from 1 then the previous must be 1(S&W only uses 0&1)
+        seqNumSending = 0;//at very start seqNum is 0
+        status = "Ready";//status set Ready, so it can take data to pack and process
 
-        //PLACEHOLDER: unsure about length of window size.
-        windowSize = 10;
+        dataList = new ArrayList<>(); //set up the new ArrayList
+
+        sendBase = 0; //At start, sendBase of sequence is 0
+        int windowSize = 10; //PLACEHOLDER: unsure about length of window size.
+        acked = new ArrayList<>(); //starting with empty list of acknowledged packet numbers
+
     }
 
     @Override
@@ -44,34 +44,51 @@ public class SenderPipeline extends TransportLayer {
 
         System.out.println();
         System.out.println("______________________________");
+
+        /*
+         * check if the status of sender is either in Ready (ready to send) or in Resend (ready to resend)
+         * only pack and send any message if sender is ready or need to resend
+         * else add the message data into the queue to be processed later once Sender is ready
+         */
         if(Objects.equals(status, "Ready")||Objects.equals(status, "Resend")){
-            System.out.print("SENDER: The data we got: ");
-            System.out.println(Arrays.toString(data)); //to check what data we have been passed
 
+            //to check what data we have been passed
+            System.out.println("SENDER: The data we got: " + Arrays.toString(data));
 
+            //make the packet using mk_pkt()
             System.out.println("SENDER: making packet "+seqNumSending+" for data we got");
-            //The next packet in the sequence is gotten from the data in this variable, with its sequence number equalling the sequence number of this
-            //QUESTION FOR MICHAEL: where is the process of the packet data within this segment supposed to be carried out.
-            sndPkt.add(mk_pkt(seqNumSending, data)); //make the packet using mk_pkt()
+            sndPkt = mk_pkt(seqNumSending, data);
 
-            //PLACEHOLDER OPERATION to send packets to reciever. May need more details about when we get enough packets to have a full window of non-null packets ready to send.
-            sendWindow();
-
+            //copy the data we got into sendingData to keep a copy for resending.
             sendingData = new byte[data.length];
             System.arraycopy(data, 0, sendingData, 0, sendingData.length);
 
-            status="Ready";
-            timerInterrupt();
+            //call sim function to perform udt_send() send to NetworkLayer
+            System.out.println("SENDER: packet "+sndPkt.getSeqNum()+" sent to Network layer");
+            simulator.sendToNetworkLayer(this,sndPkt);
+
+            //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
+            System.out.println("SENDER: timer started");
+            simulator.startTimer(this,100);
+
+            /*
+             * set the status of sender to Sent&Wait (make the Sender not available)
+             * in this status Sender don't send anything, any more data come in will be added to queue
+             */
+            status = "Sent&Wait";
+
+            System.out.println("______________________________");
+            System.out.println();
+
         }else{
-            System.out.println("WAIT");
-            dataQueue.add(data);
-            //System.out.println("data Queue contains: "+ Arrays.toString(dataQueue.poll()));
+            //Sender not available to process the data, present message.
+            System.out.println("SENDER: WAIT");
         }
-
-
-
     }
 
+    /*
+     * This method make the packet to be sent
+     */
     public TransportLayerPacket mk_pkt(int seqNum, byte[] data){
 
         Checksum checksum = new Checksum(data);//initialise Checksum passing data into Checksum
@@ -85,54 +102,60 @@ public class SenderPipeline extends TransportLayer {
     @Override
     public void rdt_receive(TransportLayerPacket pkt) {
 
-        rcvPkt.add(new TransportLayerPacket(pkt));
+        //copy the packet we received (pkt) into field rcvPkt, so we can reference it easier
+        rcvPkt = new TransportLayerPacket(pkt);
+
         System.out.println("______________________________");
         System.out.println("SENDER: receiving ACK packet");
         System.out.println("SENDER: checking received ACK packet");
-        //Operation works on the newly added receive packet.
-        if (!isACK(rcvPkt.get(rcvPkt.size() - 1))){
-            //if pkt is corrupted or the ACK num is not the right one then
-            //wait until timer runs out
+
+        /*
+         * check the Acknowledgement packet we got is ACKed and nothing corrupted (i.e. if ackNum has been corrupted)
+         * if pkt is corrupted or the ACK num is not the right one then
+         * do nothing wait for timeout to happen
+         */
+        if (!isACK(rcvPkt)){
+
             System.out.println("SENDER: ACK packet received is corrupted or not ACK, waiting for time out.");
 
-            //Due to the fact that the previous recieved packet is corrupted, remove it from our list of received packets.
-            rcvPkt.remove(rcvPkt.size() - 1);
-
-            status = "Resend";
-            timerInterrupt();
-
         }else{
+
             //if everything is fine then stop timer waiting to be called from above
-            System.out.println("SENDER: ACKed for packet " + rcvPkt.get(rcvPkt.size() - 1).getSeqNum());
+            System.out.println("SENDER: ACKed for packet " + rcvPkt.getSeqNum());
 
-            //Add acknowledgement number of this new packet to our list of acknowledgement numbers found.
-            acked.add(rcvPkt.get(rcvPkt.size() - 1).getAckNum());
+            //Add sequence number of this number to our list of acknowledged packets based on their sequence numbers.
+            acked.add(rcvPkt.getSeqNum());
 
-            //If the acknowledgement corresponds to the base packet from the window, move window up
-            if (rcvPkt.get(rcvPkt.size() - 1).getAckNum() == seqNumSending) {
-                //Show that the sequnence number base has been moved up, and what the previous number bases were.
-                System.out.print("SENDER: sequence base moved past following packets: " + seqNumSending);
+            //If the sequence number of the recieved packet is that of the base, perform the operation to move up.
+            if (rcvPkt.getSeqNum() == sendBase) {
 
-                prevSeqNum = seqNumSending;
-                seqNumSending = (seqNumSending + 1);
-
-                //Move base through all packets after base that have also been acknowledged. Show these moved past bases in the output
-                while (acked.contains(seqNumSending)) {
-                    System.out.print(", " + seqNumSending);
-                    prevSeqNum = seqNumSending;
-                    seqNumSending = (seqNumSending + 1);
+                //Move up the base packets until we reach one that currently has not been acknowledged
+                while (acked.contains(sendBase)) {
+                    //Remove initial packet, moving all other elements back by 1.
+                    dataList.remove(0);
+                    //New sendBase packet corresponds to previous base + 1
+                    sendBase += 1;
                 }
-                System.out.println();
+
+                //Perform operation to remove all acked numbers before sendBase to remove data held in memory for program
+                ackedRemovePrevious();
+                //As new packets should now be accessible, perform send operation of packets from window again
+                sendWindow();
+
             }
 
+            //we finished with this packet set the current seqNum to be the prevSeqNum
+            prevSeqNum = seqNumSending;
+            //flip the current seqNum
+            seqNumSending = (seqNumSending^1);
 
-
+            //set status of Sender to Ready, since we are ready to process the next message data
             status = "Ready";
+
+            //call sim function to stop the timer, indicate we are done with the current packet
             simulator.stopTimer(this);
             System.out.println("SENDER: Timer stopped");
-            if(!dataQueue.isEmpty()){
-                rdt_send(dataQueue.poll());
-            }
+
 
         }
         System.out.println("______________________________");
@@ -141,71 +164,92 @@ public class SenderPipeline extends TransportLayer {
     }
 
 
+    /*
+     * check if the Acknowledgement we got is the correct ACK we are looking for
+     * when we wait for ACK of seqNum 0, and we got ACK of seqNum 1 then we know it is not the right one
+     * if we received the correct ACK num then return true
+     * else false
+     */
     public boolean isACK(TransportLayerPacket rcvPkt){
-        if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending){
-            //check if the ACK is the correct ACK
-            // when we wait for ACK 0, and we got ACK 1 then we know it is not the right one
-            //if we received the correct ACK num then return true else false
+        if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending) {
+
             return rcvPkt.getAckNum() == 1;
         }
         return false;
     }
 
-    @Override
-    public void timerInterrupt() {
-        System.out.println("______________________________");
-        System.out.println("SENDER: timerInterrupt");
 
-        if(Objects.equals(status, "Ready")){
-
-            //Assume that the most recent packet from the array is the one being sent to the server
-            System.out.println("SENDER: packet "+sndPkt.get(sndPkt.size() - 1).getSeqNum()+" sent to Network layer");
-
-            //resend all packets from window.
-            //NOTE: using this method assumes that we resend packets even if they have been sent but not yet ACKED, which should be caught by duplication case in receiver class.
-            sendWindow();
-
-            System.out.println("SENDER: timer started");
-            simulator.startTimer(this,10); //call sim function start the timer (timer kept time taken between send a packet and receives ACK)
-            System.out.println("______________________________");
-            System.out.println();
-            status = "Sent&Wait";
-
-        }else if(Objects.equals(status,"Resend")){
-            simulator.stopTimer(this);
-            System.out.println("SENDER: timer stopped, time out!");
-            System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
-            System.out.println("SENDER: Resending the packet");
-            System.out.println("______________________________");
-            rdt_send(sendingData);
-        }else{
-            System.out.println("SENDER: Please Wait for the ACK of prev packet.");
-        }
-    }
 
     /**
      * Function called to send all packets from window in list of sender packets.
      */
     public void sendWindow () {
+        System.out.println("______________________________");
+        System.out.println("SENDER: sending packets in window to reciever");
         //System.out.print statements are used to debug output of receiver packet removals. When this starts, a boolean variable will change
         boolean noOutput = true;
-        //Loop over all packets in window, assuring that we do not go out of the index of the arrayList
-        for (int i = seqNumSending; i < seqNumSending + windowSize && i < sndPkt.size(); i++) {
+        //Loop over all packets in window (first N elements of array where N = windowSize), assuring that we do not go out of the index of the arrayList
+        for (int i = 0; i < windowSize && i < dataList.size(); i++) {
+
+            //The sequence number of the packet should equal the sendbase plus the index in the current arraylist.
+            int thisSeqNo = i + sendBase;
+
             //If the list of acknowledged packets doesn't contain an acknowledgement for this packet, then send it.
             //Be sure we do not send a null packet as well.
-            if (!acked.contains(sndPkt.get(i).getSeqNum()) && sndPkt.get(i) != null) {
+
+            if (!acked.contains(thisSeqNo) && dataList.get(i) != null) {
                 //Output strings of removed packets by their related sequence numbers.
                 if (noOutput) {
-                    System.out.print("SENDER: packets from window are sent to receiver: " + sndPkt.get(i).getSeqNum());
+                    System.out.print("SENDER: packets from window are sent to receiver: " + thisSeqNo);
                     noOutput = false;
                 } else {
-                    System.out.print(", " + sndPkt.get(i).getSeqNum());
+                    System.out.print(", " + thisSeqNo);
                 }
-                simulator.sendToNetworkLayer(this, sndPkt.get(i));
+                //Send the packet at the index of the window, with the sequence number sent with it being adjusted properly.
+                seqNumSending = thisSeqNo;
+                rdt_send(dataList.get(i));
             }
-         }
-        //If we have output, print to next line.
+        }
+        //If we have no output, show this to terminal
         if (!noOutput)
-            System.out.println();
+            System.out.println("SENDER: no packets in window were found to be sent");
+        System.out.println("______________________________");
+        System.out.println();
+    }
+
+
+    /**
+     * When the sendBase is pushed up, remove all numbers from list of acked packets that are smaller than new sendBase to reduce size
+     */
+    public void ackedRemovePrevious() {
+        //Use while loop, as we may need to examine one index again if an element is removed and the next one appears in its place
+        int i = 0;
+        while (i < acked.size()) {
+            //If the sequence number here is less than the base, remove the item.
+            if (acked.get(i) < sendBase) {
+                acked.remove(i);
+            //Otherwise, move onto next item in existing list.
+            } else {
+                i += 1;
+            }
+        }
+    }
+
+    @Override
+    public void timerInterrupt() {
+
+        System.out.println("______________________________");
+        System.out.println("SENDER: RESEND");
+
+        System.out.println("SENDER: The data we are trying to Resend " + Arrays.toString(sendingData));
+        System.out.println("SENDER: Resending the packet");
+        System.out.println("______________________________");
+
+        /*
+         * set the status of Sender to Resend and send the data from the window again
+         */
+        status = "Resend";
+        sendWindow();
+
     }
 }

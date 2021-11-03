@@ -3,51 +3,41 @@ import java.util.ArrayList;
 
 public class ReceiverPipeline extends TransportLayer{
 
-    TransportLayerPacket rcvPkt ;
-    int prev_SeqNUm;
-    int ackNum;
-
-    //Holds the size of the window
-    int windowSize;
-
-    //Holds the current base of the receiving window
-    int rcvBase;
-
-    //Holds a list of packets that are currently buffered.
-    ArrayList<TransportLayerPacket> buffer;
+    TransportLayerPacket rcvPkt;//the received packet segment we are current processing
+    int expectedNext; //the sequence number whose packet we are hoping to send next.
+    ArrayList<TransportLayerPacket> buffer; //Holds a list of packets that are currently buffered
+    int prev_SeqNum; //the last seq number we have processed
 
     public ReceiverPipeline(String name, NetworkSimulator simulator) {
         super(name, simulator);
     }
 
-
     @Override
     public void init(){
 
         //initialise all variable
-
         System.out.println("RECEIVER: " + getName() + " has been initialised");
-        rcvPkt = null;
         //Initialise buffered packets as new list of packets.
         buffer = new ArrayList<>();
-        //PLACEHOLDER: unsure about length of window size.
-        windowSize = 10;
-        //First recieve base packet is at index 0.
-        rcvBase = 0;
-        //receiver = new Receiver("Receiver", simulator);
-        prev_SeqNUm = -9999; //keep track of the seq num we received
+        rcvPkt = null;//starting with null segment
+        expectedNext = 0; //Starting with 0 as first packet expected
+        prev_SeqNum = 1; //since the first packet we will receive is also pkt 0 then it is safe to assume the prev_SeqNum is 1
 
     }
 
     @Override
     public void rdt_send(byte[] data) {
+
         System.out.println("______________________________");
         System.out.println("RECEIVER: sending ACK to sender for packet with seqNum of " + rcvPkt.getSeqNum());
 
         //if everything is being checked and being process make a pkt to send ACK back to sender
         TransportLayerPacket sendingPkt = mk_pkt(rcvPkt.getSeqNum());
+
         //call sim function to perform udt_send() send to networkLayer
-        simulator.sendToNetworkLayer(this,sendingPkt); // This line is sending daa to Network stimulator with this data
+        // This line is sending daa to Network stimulator with this data
+        simulator.sendToNetworkLayer(this,sendingPkt);
+        prev_SeqNum = rcvPkt.getSeqNum();
         System.out.println("______________________________");
     }
 
@@ -58,43 +48,36 @@ public class ReceiverPipeline extends TransportLayer{
         //get the received packet and turn into a usable packet
         rcvPkt = new TransportLayerPacket(pkt);
 
-        //check if we have received the same packet twice
-        if(prev_SeqNUm == rcvPkt.getSeqNum()){
-
-            //duplicate package just ignore
-            System.out.println("RECEIVER: Duplicated packet "+ rcvPkt.getSeqNum() +" received. ignored!");
-            prev_SeqNUm = rcvPkt.getSeqNum();
-
-            //else check if the packet is corrupt
-        }else if(corruption()){
+        if (corruption()) {
             System.out.println("RECEIVER: Received the packet "+rcvPkt.getSeqNum()+".");
             //if it corrupted, ignore the current packet, waiting for timeout on sender side and be prepared to receive the next incoming packet
             System.out.println("RECEIVER: Received pkt but problem found, waiting for sender to resend.");
-            ackNum = 0;
-            rdt_send(new byte[1]);
 
-        }else{
+        } else {
+
             //if this is the next packet we expect, send it
-            if (rcvPkt.getSeqNum() == rcvBase) {
+            if (rcvPkt.getSeqNum() == expectedNext) {
 
                 //send the data to applicationLayer via sim function
                 System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, No problem found sending to Application layer.");
                 simulator.sendToApplicationLayer(this,rcvPkt.getData());
                 //Set receiver base to next packet.
-                rcvBase += 1;
+                expectedNext += 1;
                 //If items are in buffer, use function to go through buffered items and check which packets need to be removed.
                 if (!buffer.isEmpty())
                     recheckBuffer();
 
-            //otherwise, put the packet in the buffer
+                //otherwise, put the packet in the buffer
             } else {
                 // if no problem found during error check, extract data from the packet
                 System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is out of order and put on buffer.");
                 buffer.add(pkt);
             }
 
-            //ready to receive the next packet.
-            ackNum = 1;
+            //we finished with this packet set the current seqNum to be the prevSeqNum
+            prev_SeqNum = rcvPkt.getSeqNum();
+
+            //for acknowledgement packet segment we don't need to pass back the original data so just keep a dummy value
             rdt_send(new byte[1]);
         }
         System.out.println("______________________________");
@@ -135,8 +118,6 @@ public class ReceiverPipeline extends TransportLayer{
         String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
         System.out.println("RECEIVER：Total Checksum : " + added_Checksum);
 
-
-
         //checking bit by bit if all bits equal to 1 then no error found return false
         //else if any bit equal 0, then an error exists return true.
         for(int i = 0; i < added_Checksum.length(); i++){
@@ -156,10 +137,9 @@ public class ReceiverPipeline extends TransportLayer{
     public TransportLayerPacket mk_pkt(int seqNum){
 
         //use constructor to build new packet
-        return new TransportLayerPacket(seqNum,ackNum,new byte[1],"");
+        return new TransportLayerPacket(seqNum,1,new byte[1],"");
 
     }
-
 
     /**
      * Function called when extracting items from buffer list to deliver them to application
@@ -176,7 +156,7 @@ public class ReceiverPipeline extends TransportLayer{
             //Loop through to end of field once until we have gone through all items. While loop is used for case of items removed in list.
             while (i < buffer.size()) {
                 //If this packet is next packet from list, deliver it and remove it from buffer
-                if (buffer.get(i).getSeqNum() == rcvBase) {
+                if (buffer.get(i).getSeqNum() == expectedNext) {
                     //Output strings of removed packets by their related sequence numbers.
                     if (noOutput) {
                         System.out.print("RECEIVER: buffer packets removed: " + buffer.get(i).getSeqNum());
@@ -187,10 +167,10 @@ public class ReceiverPipeline extends TransportLayer{
                     simulator.sendToApplicationLayer(this,buffer.get(i).getData());
                     buffer.remove(i);
                     //Set receiver base to next packet.
-                    rcvBase += 1;
-                    //due to possibilty of rechecking previous packets, loop again after this loop has finished.
+                    expectedNext += 1;
+                    //due to possibility of rechecking previous packets, loop again after this loop has finished.
                     finished = false;
-                //otherwise, move onto next element.
+                    //otherwise, move onto next element.
                 } else {
                     i += 1;
                 }

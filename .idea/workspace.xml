@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Currently implementing further working version of Pipeline process for updated RDT functions. Currently satisfied with progress on &quot;ReceiverPipeline&quot; version of process, more work is needed on &quot;SenderPipeline&quot; version of process.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Sender.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/TransportLayerPacket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReceiverPipeline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SenderPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SenderPipeline.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +116,8 @@
       <workItem from="1635504479408" duration="1496000" />
       <workItem from="1635525990312" duration="1206000" />
       <workItem from="1635794082565" duration="18989000" />
-      <workItem from="1635844552156" duration="6981000" />
+      <workItem from="1635844552156" duration="7114000" />
+      <workItem from="1635859225265" duration="17644000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -189,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635824471893</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present.">
+      <created>1635851958709</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1635851958709</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +225,7 @@
     <MESSAGE value="Updated Pipeline files to consider methods of pipelined protocols identified in textbook." />
     <MESSAGE value="New approach to Sender/Receiver problem started, commentary on how I am approaching issue is present throughout Pipeline classes" />
     <MESSAGE value="Currently implementing further working version of Pipeline process for updated RDT functions. Currently satisfied with progress on &quot;ReceiverPipeline&quot; version of process, more work is needed on &quot;SenderPipeline&quot; version of process." />
-    <option name="LAST_COMMIT_MESSAGE" value="Currently implementing further working version of Pipeline process for updated RDT functions. Currently satisfied with progress on &quot;ReceiverPipeline&quot; version of process, more work is needed on &quot;SenderPipeline&quot; version of process." />
+    <MESSAGE value="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present." />
   </component>
 </project>
