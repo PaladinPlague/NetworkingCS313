@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="ive added commentary to checksum">
       <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NetworkSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NetworkSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Michael" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -224,7 +221,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635873840235</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="ive added commentary to checksum">
+      <created>1635972831007</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1635972831007</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,7 +262,8 @@
     <MESSAGE value="removed N-ACK and full test required" />
     <MESSAGE value="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code." />
     <MESSAGE value="the problem of incorrect checksum still to be fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="the problem of incorrect checksum still to be fixed" />
+    <MESSAGE value="ive added commentary to checksum" />
+    <option name="LAST_COMMIT_MESSAGE" value="ive added commentary to checksum" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

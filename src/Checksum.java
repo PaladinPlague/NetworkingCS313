@@ -33,7 +33,7 @@ public class Checksum {
     }
     /*
      * This function takes 2 words in binary format, and adds them together, we do this addition in binary format
-     *
+
      */
     public String bitAddition(String first, String second) {
         int c = 0;
