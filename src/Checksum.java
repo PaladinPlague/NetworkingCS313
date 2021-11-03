@@ -10,6 +10,8 @@ public class Checksum {
     }
 
     /*
+     * This adds up all of the items in the list using the bitAddition helper function, once we get the total, it uses the
+     * onesComplement helper function to translate the total into ones complement
      *
      */
     public String createCheckSum() {
@@ -29,7 +31,10 @@ public class Checksum {
 
         return answer;
     }
+    /*
+     * This function takes 2 words in binary format, and adds them together, we do this addition in binary format
 
+     */
     public String bitAddition(String first, String second) {
         int c = 0;
         String answer = "";
@@ -66,7 +71,9 @@ public class Checksum {
             return this.bitAddition(answer, cString);
         }
     }
-
+    /*
+     * This adds up all of the items in the list using the bitAddition helper function, we then return this total
+     */
     public String createTotal() {
         String answer = "0000000000000000";
 
@@ -78,7 +85,9 @@ public class Checksum {
 
         return answer;
     }
-
+    /*
+     * This takes a word in binary format and return the one's complement of that word
+     */
     public String onesComplement(String change) {
         char[] binaryArray = change.toCharArray();
 

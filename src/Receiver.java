@@ -75,45 +75,8 @@ public class Receiver extends TransportLayer{
     */
     public boolean corruption(){
 
-        System.out.println("{____________________}");
-        System.out.println("RECEIVER：Corruption test starts");
-        //if the packet is null (not received) then just return true (corrupted )
-        if(rcvPkt == null){
-            System.out.println("RECEIVER：TEST failed Packet is empty");
-            System.out.println("{______________________}");
-            return true;
-        }
-        //extract data from packet
-        byte [] rcv_data = rcvPkt.getData();
-        System.out.println("RECEIVER：Packet's data received: " + Arrays.toString(rcv_data));
 
-        //get the checksum from the packet used to check for errors
-        String rcv_Checksum = rcvPkt.getChecksum();
-        System.out.println("RECEIVER：Packet's checksum: " + rcv_Checksum);
 
-        //get new checksum for the dat awe just received
-        Checksum checksum = new Checksum(rcv_data);
-
-        String total_data = checksum.createTotal();
-        System.out.println("RECEIVER：checksum for Data received: " + total_data);
-
-        //add the two checksum values together (in bits)
-        String added_Checksum = checksum.bitAddition(total_data, rcv_Checksum);
-        System.out.println("RECEIVER：Total Checksum : " + added_Checksum);
-
-        //checking bit by bit if all bits equal to 1 then no error found return false
-        //else if any bit equal 0, then an error exists return true.
-        for(int i = 0; i < added_Checksum.length(); i++){
-
-            if(added_Checksum.charAt(i) != '1'){
-                System.out.println("RECEIVER：Error occurred at bit position: " + i +" .");
-                System.out.println("{____________________}");
-                //if any of the bits not equal 1 than return corruption equal ture
-                return true;
-            }
-        }
-
-        System.out.println("{____________________}");
         return false;
     }
 
