@@ -2,7 +2,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        NetworkSimulator sim = new NetworkSimulator(1, 0.0, 1.0, 10.0, false, 4);
+        //Change number of messages based on how many packets you want to send
+        //lossProb is between 0 and 1
+        //NOTE: corruptProb is between 0 and 100
+        //Don't need to change lambda and bidirectional
+        NetworkSimulator sim = new NetworkSimulator(20, 0.0, 0.2, 10.0, false, 4);
 
 
         // TODO: Set the sender   (sim.setSender)

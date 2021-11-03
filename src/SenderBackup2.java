@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Sender extends TransportLayer {
+public class SenderBackup2 extends TransportLayer {
 
 
     TransportLayerPacket sndPkt; //the sending packet segment we are currently processing
@@ -17,7 +17,7 @@ public class Sender extends TransportLayer {
     int windowSize; //Holds the size of the window
     ArrayList<Integer> acked; //Holds list of all known acknowledged packet numbers
 
-    public Sender(String name, NetworkSimulator simulator) {
+    public SenderBackup2(String name, NetworkSimulator simulator) {
         super(name, simulator);
     }
 
@@ -36,7 +36,7 @@ public class Sender extends TransportLayer {
         dataList = new ArrayList<>(); //set up the new ArrayList
 
         sendBase = 0; //At start, sendBase of sequence is 0
-        windowSize = 10; //PLACEHOLDER: unsure about length of window size.
+        int windowSize = 10; //PLACEHOLDER: unsure about length of window size.
         acked = new ArrayList<>(); //starting with empty list of acknowledged packet numbers
 
     }
@@ -53,10 +53,6 @@ public class Sender extends TransportLayer {
          * else add the message data into the queue to be processed later once Sender is ready
          */
         if(Objects.equals(status, "Ready")||Objects.equals(status, "Resend")){
-
-            //If this is our first packet, it will be sent before there is any data from the list, so we add it initially as part of the list.
-            if (dataList.isEmpty())
-                dataList.add(data);
 
             //to check what data we have been passed
             System.out.println("SENDER: The data we got: " + Arrays.toString(data));
@@ -88,7 +84,7 @@ public class Sender extends TransportLayer {
 
         }else{
             //Sender not available to process the data, present message.
-            System.out.println("SENDER: WAIT - data " + Arrays.toString(data) + " held in list.");
+            System.out.println("SENDER: WAIT");
             dataList.add(data);
         }
     }
@@ -140,14 +136,16 @@ public class Sender extends TransportLayer {
 
                 //Move up the base packets until we reach one that currently has not been acknowledged
                 while (acked.contains(sendBase)) {
+                    //DEBUG:
+                    for (int i = 0; i < acked.size(); i++) {
+                        System.out.println(acked.get(i));
+                    }
+                    System.out.println("SENDBASE: " + sendBase);
                     //Remove initial packet, moving all other elements back by 1.
                     dataList.remove(0);
                     //New sendBase packet corresponds to previous base + 1
                     sendBase += 1;
                 }
-
-                //set status of Sender to Ready, since we are ready to process the next message data
-                status = "Ready";
 
                 //Perform operation to remove all acked numbers before sendBase to remove data held in memory for program
                 ackedRemovePrevious();
@@ -161,7 +159,8 @@ public class Sender extends TransportLayer {
             //flip the current seqNum
             seqNumSending = (seqNumSending^1);
 
-
+            //set status of Sender to Ready, since we are ready to process the next message data
+            status = "Ready";
 
             //call sim function to stop the timer, indicate we are done with the current packet
             simulator.stopTimer(this);
@@ -182,10 +181,7 @@ public class Sender extends TransportLayer {
      * else false
      */
     public boolean isACK(TransportLayerPacket rcvPkt){
-        //System.out.println(rcvPkt.getSeqNum());
-        //System.out.println(seqNumSending);
-        //if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending) {
-        if (rcvPkt != null) {
+        if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending) {
 
             return rcvPkt.getAckNum() == 1;
         }
@@ -202,6 +198,7 @@ public class Sender extends TransportLayer {
         System.out.println("SENDER: sending packets in window to reciever");
         //System.out.print statements are used to debug output of receiver packet removals. When this starts, a boolean variable will change
         boolean noOutput = true;
+        System.out.println("SENDER: " + dataList.size());
         //Loop over all packets in window (first N elements of array where N = windowSize), assuring that we do not go out of the index of the arrayList
         for (int i = 0; i < windowSize && i < dataList.size(); i++) {
 
@@ -219,15 +216,13 @@ public class Sender extends TransportLayer {
                 } else {
                     System.out.print(", " + thisSeqNo);
                 }
-                //set status of Sender to Ready, since we are ready to process the next message data
-                status = "Ready";
                 //Send the packet at the index of the window, with the sequence number sent with it being adjusted properly.
                 seqNumSending = thisSeqNo;
                 rdt_send(dataList.get(i));
             }
         }
         //If we have no output, show this to terminal
-        if (noOutput)
+        if (!noOutput)
             System.out.println("SENDER: no packets in window were found to be sent");
         System.out.println("______________________________");
         System.out.println();
@@ -265,7 +260,7 @@ public class Sender extends TransportLayer {
          * set the status of Sender to Resend and send the data from the window again
          */
         status = "Resend";
-        //dataList.add(sendingData);
+        dataList.add(sendingData);
         sendWindow();
 
     }

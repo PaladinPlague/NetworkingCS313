@@ -1,14 +1,14 @@
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Receiver extends TransportLayer{
+public class ReceiverBackup2 extends TransportLayer{
 
     TransportLayerPacket rcvPkt;//the received packet segment we are current processing
     int expectedNext; //the sequence number whose packet we are hoping to send next.
     ArrayList<TransportLayerPacket> buffer; //Holds a list of packets that are currently buffered
     int prev_SeqNum; //the last seq number we have processed
 
-    public Receiver(String name, NetworkSimulator simulator) {
+    public ReceiverBackup2(String name, NetworkSimulator simulator) {
         super(name, simulator);
     }
 
@@ -67,15 +67,9 @@ public class Receiver extends TransportLayer{
                 if (!buffer.isEmpty())
                     recheckBuffer();
 
-                //If we get a packet less than the current number expected, reject it
-            } else if (rcvPkt.getSeqNum() < expectedNext) {
-
-                // if packet found
-                System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is out of order and put on buffer.");
-
                 //otherwise, put the packet in the buffer
             } else {
-
+                // if no problem found during error check, extract data from the packet
                 System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is out of order and put on buffer.");
                 buffer.add(pkt);
             }
