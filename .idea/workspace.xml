@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="the problem of incorrect checksum still to be fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Checksum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Checksum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +50,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -108,7 +108,8 @@
       <workItem from="1635756009382" duration="19065000" />
       <workItem from="1635789494941" duration="9414000" />
       <workItem from="1635845670859" duration="13851000" />
-      <workItem from="1635868516436" duration="4046000" />
+      <workItem from="1635868516436" duration="6034000" />
+      <workItem from="1635937258281" duration="7156000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -215,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635868918322</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="the problem of incorrect checksum still to be fixed">
+      <created>1635873840235</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1635873840235</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,7 +256,8 @@
     <MESSAGE value="queue implemented Sender can behave in stop and wait,but I used NegAck. Full test of functionality need to be cared out." />
     <MESSAGE value="removed N-ACK and full test required" />
     <MESSAGE value="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code." />
-    <option name="LAST_COMMIT_MESSAGE" value="the problem of incorrect checksum still to be fixed, but I have added commentary to help others to understand my code." />
+    <MESSAGE value="the problem of incorrect checksum still to be fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="the problem of incorrect checksum still to be fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
