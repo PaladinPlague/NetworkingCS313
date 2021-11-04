@@ -7,7 +7,6 @@
     <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="the problem of incorrect checksum still to be fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProtocolOutputComparison.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Checksum.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Checksum.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/ReceiverBackup.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/ReceiverBackup2.class" beforeDir="false" />
@@ -16,11 +15,9 @@
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/SenderBackup2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/SenderPipeline.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Receiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverBackup.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverBackup2.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReceiverPipeline.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SenderBackup.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SenderBackup2.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SenderPipeline.java" beforeDir="false" />
