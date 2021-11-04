@@ -6,7 +6,7 @@ public class Main {
         //lossProb is between 0 and 1
         //NOTE: corruptProb is between 0 and 100
         //Don't need to change lambda and bidirectional
-        NetworkSimulator sim = new NetworkSimulator(20, 0.2, 10.0, 10.0, false, 4);
+        NetworkSimulator sim = new NetworkSimulator(50, 0.9, 99.0, 0.0, false, 4);
 
 
         // TODO: Set the sender   (sim.setSender)

@@ -18,6 +18,8 @@ public class Sender extends TransportLayer {
     ArrayList<Integer> acked; //Holds list of all known acknowledged packet numbers for current window
 
     ArrayList<Integer> totalAcked; //Holds list of all acknowledged packet numbers for debugging purposes
+    /*NOTE: there are two lists based on holding acknowledgement numbers, but "acked" represents all numbers
+    Currently compared against packets. "TotalAcked" represents the actual packets used for measuring output in terminal window.*/
 
     public Sender(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -41,7 +43,7 @@ public class Sender extends TransportLayer {
         windowSize = 10; //Assume that window size of sender packets is 10
         acked = new ArrayList<>(); //starting with empty list of acknowledged packet numbers
 
-        totalAcked = new ArrayList<>();
+        totalAcked = new ArrayList<>(); //set up list of all total acknowledgement packets, used for debugging/outputting results
 
     }
 
@@ -93,6 +95,7 @@ public class Sender extends TransportLayer {
         }else{
             //Sender not available to process the data, present message.
             System.out.println("SENDER: WAIT - data " + Arrays.toString(data) + " held in list.");
+            //Archive data in list of later data.
             dataList.add(data);
         }
     }
@@ -158,14 +161,10 @@ public class Sender extends TransportLayer {
                     //If the acknowledged packet is the first one, continue for the rest of the packets in the new window.
                     if (sendBase <= 1) {
 
-                        //As new packets should now be accessible, perform send operation of packets from window again
                         sendWindow("Ready");
 
                     //Otherwise, check if we can send the packet at the end of the window, and if so, send it.
                     } else if (sendBase + windowSize < dataList.size() && dataList.get(sendBase + windowSize) != null) {
-
-                        //TIME INTERRUPTS SHOULD BE DONE DIFFERENTLY FOR SELECTIVE REPEAT.
-                        //Make a note of what packets have been lost or corrupted.
 
                         //call sim function to stop the timer, indicate we are done with the current packet
                         simulator.stopTimer(this);
@@ -205,15 +204,10 @@ public class Sender extends TransportLayer {
 
     /*
      * check if the Acknowledgement we got is the correct ACK we are looking for
-     * when we wait for ACK of seqNum 0, and we got ACK of seqNum 1 then we know it is not the right one
-     * if we received the correct ACK num then return true
-     * else false
+     * Valid Ack numbers are one where the packet isn't null and has an acknowledgement number of 1, is within the sender window, and hasn't already been acknowledged.
      */
     public boolean isACK(TransportLayerPacket rcvPkt){
-        //System.out.println(rcvPkt.getSeqNum());
-        //System.out.println(seqNumSending);
-        if (rcvPkt != null && rcvPkt.getSeqNum() == seqNumSending) {
-
+        if (rcvPkt != null && !acked.contains(rcvPkt.getSeqNum()) && rcvPkt.getSeqNum() >= sendBase && rcvPkt.getSeqNum() <= sendBase + windowSize) {
             return rcvPkt.getAckNum() == 1;
         }
         return false;
@@ -223,11 +217,12 @@ public class Sender extends TransportLayer {
 
     /**
      * Function called to send all packets from window in list of sender packets.
+     * statusSet is "Resend" if it is sent from a timer interrupt and "Ready" otherwise to emulate the effects of ensuring the sender is working in any case
      */
     public void sendWindow (String statusSet) {
         System.out.println("______________________________");
         System.out.println("SENDER: sending packets in window to reciever");
-        //System.out.print statements are used to debug output of receiver packet removals. When this starts, a boolean variable will change
+        //System.out.print statements are used to debug output of receiver packet removals. If no packets are sent, send a unique message.
         boolean noOutput = true;
         //Loop over all packets in window (first N elements of array where N = windowSize), assuring that we do not go out of the index of the arrayList
         for (int i = 0; i < windowSize && i < dataList.size(); i++) {
@@ -239,13 +234,14 @@ public class Sender extends TransportLayer {
             //Be sure we do not send a null packet as well.
 
             if (!acked.contains(thisSeqNo) && dataList.get(i) != null) {
-                //Output strings of removed packets by their related sequence numbers.
+
+                //Show that there has been at least one input from the window sending process if this is the case, or none otherwise.
                 if (noOutput) {
-                    System.out.print("SENDER: packets from window are sent to receiver: " + thisSeqNo);
                     noOutput = false;
-                } else {
-                    System.out.print(", " + thisSeqNo);
                 }
+                //Output strings of removed packets by their related sequence numbers.
+                System.out.print("SENDER: packet from window sent to receiever: " + thisSeqNo);
+
                 //set status of Sender to what allows us to resend each packet using the send method.
                 status = statusSet;
                 //Send the packet at the index of the window, with the sequence number sent with it being adjusted properly.
@@ -296,7 +292,6 @@ public class Sender extends TransportLayer {
          * set the status of Sender to Resend and send the data from the window again
          */
         status = "Resend";
-        //dataList.add(sendingData);
         sendWindow("Resend");
 
     }

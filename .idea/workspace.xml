@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet.">
+    <list default="true" id="047ae3e1-69f5-481b-8c86-db5122277d96" name="Changes" comment="Done more work on code. A more satisfactory process has been found with successful results that might be closer to what I have been aiming to accomplish.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Team15/Receiver.class" afterDir="false" />
@@ -120,7 +120,7 @@
       <workItem from="1635844552156" duration="7114000" />
       <workItem from="1635859225265" duration="19829000" />
       <workItem from="1635933369198" duration="4008000" />
-      <workItem from="1635946854941" duration="25991000" />
+      <workItem from="1635946854941" duration="34570000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1633106286857</created>
@@ -220,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635962564081</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Done more work on code. A more satisfactory process has been found with successful results that might be closer to what I have been aiming to accomplish.">
+      <created>1635977540647</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1635977540647</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,7 +259,8 @@
     <MESSAGE value="Implemented further working functions using ArrayList approach on selective repeat method, though concerns, especially in &quot;rdt_send&quot; method are still present." />
     <MESSAGE value="Created new version of Pipeline method that considers data stored in &quot;dataList&quot; as packets to be sent. Currently facing problem where code stops after sender sends packets to reciever." />
     <MESSAGE value="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjusted code for pipeline methods. Currently providing effective output for some methods but facing issues in other areas. Due to the fact that there is one timer, it is difficult to do a timer interrupt linked to each individual packet." />
+    <MESSAGE value="Done more work on code. A more satisfactory process has been found with successful results that might be closer to what I have been aiming to accomplish." />
+    <option name="LAST_COMMIT_MESSAGE" value="Done more work on code. A more satisfactory process has been found with successful results that might be closer to what I have been aiming to accomplish." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

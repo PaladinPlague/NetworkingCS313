@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Receiver extends TransportLayer{
 
     TransportLayerPacket rcvPkt;//the received packet segment we are current processing
-    int expectedNext; //the sequence number whose packet we are hoping to send next.
+    int rcvBase; //the sequence number whose packet we are hoping to see next, where the window of the packet sequence starts.
     ArrayList<TransportLayerPacket> buffer; //Holds a list of packets that are currently buffered
     int prev_SeqNum; //the last seq number we have processed
 
     int windowSize; //Holds the size of the window, as sequenced packets should not be able to be delivered after this.
 
-    ArrayList<Integer> totalSeqNums; //Holds the total list of sequence numbers - used for debugging purposes.
+    ArrayList<Integer> totalSeqNums; //Holds the total list of sequence numbers - used for displaying results of program.
 
     public Receiver(String name, NetworkSimulator simulator) {
         super(name, simulator);
@@ -24,11 +24,11 @@ public class Receiver extends TransportLayer{
         //Initialise buffered packets as new list of packets.
         buffer = new ArrayList<>();
         rcvPkt = null;//starting with null segment
-        expectedNext = 0; //Starting with 0 as first packet expected
+        rcvBase = 0; //Starting with 0 as receiver base
         prev_SeqNum = 1; //since the first packet we will receive is also pkt 0 then it is safe to assume the prev_SeqNum is 1
         windowSize = 10; //Assume that window size of receiver packets is 10
 
-        totalSeqNums = new ArrayList<>();
+        totalSeqNums = new ArrayList<>(); //construct list of sequence numbers
 
     }
 
@@ -45,6 +45,7 @@ public class Receiver extends TransportLayer{
         // This line is sending daa to Network stimulator with this data
         simulator.sendToNetworkLayer(this,sendingPkt);
         prev_SeqNum = rcvPkt.getSeqNum();
+
         System.out.println("______________________________");
     }
 
@@ -62,58 +63,45 @@ public class Receiver extends TransportLayer{
 
         } else {
 
-            //If we get a packet that cannot fit within the receiver's current window, reject this packet.
-            if (rcvPkt.getSeqNum() < expectedNext && rcvPkt.getSeqNum() > expectedNext + windowSize) {
+            //If we get a packet that is not part of the current receiver window, reject this packet.
+            if (rcvPkt.getSeqNum() < rcvBase || rcvPkt.getSeqNum() > rcvBase + windowSize) {
 
-                System.out.print("RECEIVER: ALL SEQUENCE NUMBERS DELIVERED: ");
-                for (int j = 0; j < totalSeqNums.size(); j++) {
-                    System.out.print(totalSeqNums.get(j) + " ");
-                }
-                System.out.println();
-                System.out.println(expectedNext);
-                // if packet found
-                System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is lower than expected next number and discarded.");
+                System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is out of receiver window and is discarded.");
 
-            //Otherwise, we work with the packet and ensure an acknowledgement can be delivered.
-            } else {
-
-                //if this is the next packet we expect, send it
-                if (rcvPkt.getSeqNum() == expectedNext) {
+            //If this is the next number we expect, we deliver the content, move the base of the window up and checke for any packets in buffer
+            } else if (rcvPkt.getSeqNum() == rcvBase) {
 
                     //send the data to applicationLayer via sim function
                     System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, No problem found sending to Application layer.");
                     simulator.sendToApplicationLayer(this,rcvPkt.getData());
 
+                    //Add this sequence number to list of delivered sequences now that it is added.
                     totalSeqNums.add(rcvPkt.getSeqNum());
 
-                    System.out.print("ALL SEQUENCE NUMBERS DELIVERED: ");
-                    for (int i = 0; i < totalSeqNums.size(); i++) {
-                        System.out.print(totalSeqNums.get(i) + " ");
-                    }
-                    System.out.println();
-
                     //Set receiver base to next packet.
-                    expectedNext += 1;
+                    rcvBase += 1;
                     //If items are in buffer, use function to go through buffered items and check which packets need to be removed.
                     if (!buffer.isEmpty())
                         recheckBuffer();
 
-                    //otherwise, put the packet in the buffer
-                } else {
+            //otherwise, put the packet in the buffer
+            } else {
                     System.out.println("RECEIVER: Packet "+rcvPkt.getSeqNum()+" received, but is out of order and put on buffer.");
                     buffer.add(pkt);
-                }
-
-                //we finished with this packet set the current seqNum to be the prevSeqNum
-                prev_SeqNum = rcvPkt.getSeqNum();
-
-                //for acknowledgement packet segment we don't need to pass back the original data so just keep a dummy value
-                rdt_send(new byte[1]);
-
             }
 
+            //we finished with this packet set the current seqNum to be the prevSeqNum
+            prev_SeqNum = rcvPkt.getSeqNum();
 
+            //for acknowledgement packet segment we don't need to pass back the original data so just keep a dummy value
+            rdt_send(new byte[1]);
 
+            //Display output of results for all sequence numbers of packets that have been delivered.
+            System.out.print("ALL SEQUENCE NUMBERS DELIVERED: ");
+            for (int i = 0; i < totalSeqNums.size(); i++) {
+                System.out.print(totalSeqNums.get(i) + " ");
+            }
+            System.out.println();
 
         }
         System.out.println("______________________________");
@@ -192,7 +180,7 @@ public class Receiver extends TransportLayer{
             //Loop through to end of field once until we have gone through all items. While loop is used for case of items removed in list.
             while (i < buffer.size()) {
                 //If this packet is next packet from list, deliver it and remove it from buffer
-                if (buffer.get(i).getSeqNum() == expectedNext) {
+                if (buffer.get(i).getSeqNum() == rcvBase) {
                     //Output strings of removed packets by their related sequence numbers.
                     if (noOutput) {
                         System.out.print("RECEIVER: buffer packets removed: " + buffer.get(i).getSeqNum());
@@ -201,19 +189,19 @@ public class Receiver extends TransportLayer{
                         System.out.print(", " + buffer.get(i).getSeqNum());
                     }
 
+                    //Deliver the buffered packet, add its contents to list of output and then display all output.
                     simulator.sendToApplicationLayer(this,buffer.get(i).getData());
-
                     totalSeqNums.add(buffer.get(i).getSeqNum());
-
                     System.out.print("RECEIVER: ALL SEQUENCE NUMBERS DELIVERED: ");
                     for (int j = 0; j < totalSeqNums.size(); j++) {
                         System.out.print(totalSeqNums.get(j) + " ");
                     }
                     System.out.println();
 
+                    //Remove this packet from buffer, shifting all future elements back by 1.
                     buffer.remove(i);
                     //Set receiver base to next packet.
-                    expectedNext += 1;
+                    rcvBase += 1;
                     //due to possibility of rechecking previous packets, loop again after this loop has finished.
                     finished = false;
                     //otherwise, move onto next element.
